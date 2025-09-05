@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Apoyo al Cuidado Postoperatorio Cardiaco</title>
+    <style>
+        :root {
+            --azul-serenidad: #4A90E2;
+            --verde-vitalidad: #7ED321;
+            --rojo-alerta: #D0021B;
+            --negro-suave: #333333;
+            --gris-neutro: #F2F2F2;
+            --blanco: #FFFFFF;
+            --azul-borde: #4A90E2;
+            --verde-borde: #7ED321;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, Verdana, sans-serif;
+            background-color: var(--blanco);
+            color: var(--negro-suave);
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 32px 16px;
+        }
+        h1 {
+            color: var(--azul-serenidad);
+            font-size: 2.8em;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--azul-serenidad);
+            padding-bottom: 12px;
+        }
+        h2 {
+            color: var(--azul-serenidad);
+            font-size: 2em;
+            font-weight: 650;
+            margin-top: 40px;
+            margin-bottom: 18px;
+            border-left: 6px solid var(--azul-serenidad);
+            padding-left: 14px;
+        }
+        h3 {
+            color: var(--azul-serenidad);
+            font-size: 1.35em;
+            font-weight: 500;
+            margin-top: 24px;
+            margin-bottom: 8px;
+        }
+        h4 {
+            color: var(--negro-suave);
+            font-size: 1.1em;
+            font-weight: 500;
+            margin: 16px 0 8px 0;
+        }
+        p {
+            margin-bottom: 1em;
+            text-align: justify;
+        }
+        ul, ol {
+            margin: 0 0 1em 2em;
+        }
+        li {
+            margin-bottom: 0.33em;
+        }
+        .indice {
+            background-color: var(--gris-neutro);
+            border-left: 4px solid var(--azul-borde);
+            padding: 18px;
+            margin: 2em 0 2.5em 0;
+            border-radius: 7px;
+            font-size: 1.05em;
+        }
+        .indice ul {
+            margin: 0 0 0 1.25em;
+        }
+        .resumen-ejecutivo {
+            background: var(--gris-neutro);
+            border-left: 8px solid var(--azul-serenidad);
+            padding: 16px 30px 18px 30px;
+            border-radius: 8px;
+            margin-bottom: 28px;
+        }
+        .info-box {
+            background: var(--gris-neutro);
+            border: 2px solid var(--azul-borde);
+            border-radius: 8px;
+            padding: 15px 18px;
+            margin: 20px 0;
+        }
+        .info-box.success {
+            border-color: var(--verde-borde);
+        }
+        .info-box.warning {
+            border-color: var(--rojo-alerta);
+        }
+        .stakeholder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .stakeholder-card {
+            background: var(--gris-neutro);
+            border: 2px solid var(--azul-borde);
+            border-radius: 8px;
+            padding: 12px 14px;
+        }
+        .timeline {
+            margin: 18px 0;
+        }
+        .timeline-item {
+            border-left: 4px solid var(--azul-serenidad);
+            padding-left: 8px;
+            margin-bottom: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+            background: var(--blanco);
+        }
+        th {
+            background: var(--azul-serenidad);
+            color: var(--blanco);
+            padding: 11px;
+            font-weight: 600;
+            text-align: left;
+        }
+        td {
+            padding: 10px 11px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        tr:nth-child(even) { background: #f8f9fa; }
+        .equipo-info {
+            background: var(--gris-neutro);
+            border: 2px solid var(--verde-borde);
+            border-radius: 8px;
+            padding: 1em 1.5em;
+            margin: 30px 0 20px 0;
+            text-align: center;
+        }
+        .concept-box {
+            background: var(--gris-neutro);
+            border: 2px solid var(--azul-borde);
+            border-radius: 7px;
+            padding: 14px 18px;
+            font-size: 0.97em;
+            margin: 24px 0 16px 0;
+        }
+        .paleta-demo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin: 14px 0;
+        }
+        .color-item {
+            flex: 1 1 110px;
+            background: var(--gris-neutro);
+            border-radius: 6px;
+            border: 2px solid var(--azul-borde);
+            padding: 9px 14px;
+            margin-bottom: 8px;
+            font-size: 0.99em;
+        }
+        .color-azul { border-color: var(--azul-borde);}
+        .color-verde { border-color: var(--verde-borde);}
+        .color-rojo { border-color: var(--rojo-alerta);}
+        .color-negro { border-color: var(--negro-suave);}
+
+    </style>
+</head>
+<body>
+
+<h1>Sistema de Apoyo al Cuidado Postoperatorio Cardiaco</h1>
+
+<div class="resumen-ejecutivo">
+    <h2>Resumen Ejecutivo</h2>
+    <p>
+        Este sistema está diseñado para asistir el proceso de recuperación de pacientes postoperatorios cardíacos, proporcionando acceso a recursos educativos, facilitando la comunicación efectiva entre pacientes, familiares y profesionales clínicos, y optimizando la gestión y seguimiento de citas médicas. La solución incorpora arquitectura modular, protección de datos personales, y está alineada a buenas prácticas en accesibilidad y usabilidad.
+    </p>
+    <div class="paleta-demo">
+        <div class="color-item color-azul"><strong>Azul Serenidad</strong>: Títulos principales y bordes informativos</div>
+        <div class="color-item color-verde"><strong>Verde Vitalidad</strong>: Indicadores de éxito y avisos positivos</div>
+        <div class="color-item color-rojo"><strong>Rojo Alerta Médica</strong>: Advertencias y riesgos</div>
+        <div class="color-item color-negro"><strong>Negro Suave sobre blanco</strong>: Texto corrido para máxima legibilidad</div>
+        <div class="color-item"><strong>Gris Neutro</strong>: Caja de información y fondo de tarjetas</div>
+    </div>
+</div>
+
+<div class="indice">
+    <strong>Índice</strong>
+    <ul>
+        <li><a href="#contexto-problema">Contexto y Problema</a></li>
+        <li><a href="#analisis-entorno">Análisis del Entorno</a></li>
+        <li><a href="#stakeholders">Stakeholders</a></li>
+        <li><a href="#metodologia-desarrollo">Metodología de Desarrollo</a></li>
+        <li><a href="#herramientas-colaborativas">Herramientas Colaborativas</a></li>
+        <li><a href="#planificacion">Planificación Semestral</a></li>
+        <li><a href="#documentacion">Estructura Documental</a></li>
+        <li><a href="#arquitectura-tecnica">Arquitectura Técnica Propuesta</a></li>
+        <li><a href="#funcionalidades-clave">Funcionalidades Clave</a></li>
+        <li><a href="#kpis-exito">KPIs y Criterios de Éxito</a></li>
+        <li><a href="#equipo">Equipo de Trabajo</a></li>
+    </ul>
+</div>
+
+<section id="contexto-problema">
+    <h2>Contexto y Problema</h2>
+    <p>
+        Los pacientes postoperatorios cardíacos presentan un riesgo elevado de complicaciones debido a dificultades en el seguimiento clínico, deficiente comunicación y baja adherencia al plan de cuidados. La falta de accesibilidad a información confiable y la limitada conectividad con el equipo médico obstaculiza la detección temprana y el soporte continuo.
+    </p>
+    <div class="info-box warning">
+        <strong>Necesidad principal:</strong>
+        <ul>
+            <li>Acceso centralizado a información de cuidados tras la cirugía cardíaca</li>
+            <li>Canal digital para resolver dudas y facilitar la gestión con profesionales clínicos</li>
+            <li>Herramienta amigable para agendar y gestionar citas de seguimiento</li>
+        </ul>
+    </div>
+</section>
+
+<section id="analisis-entorno">
+    <h2>Análisis del Entorno</h2>
+    <div class="concept-box">
+        <ul>
+            <li><strong>Entorno clínico:</strong> Hospitales, clínicas y centros de rehabilitación con recursos profesionales limitados y sistemas fragmentados</li>
+            <li><strong>Diversidad tecnológica:</strong> Pacientes y familiares con acceso a smartphone, pero variable en alfabetización digital</li>
+            <li><strong>Conectividad:</strong> Diseño robusto para operación local con sincronización flexible</li>
+        </ul>
+    </div>
+</section>
+
+<section id="stakeholders">
+    <h2>Stakeholders</h2>
+    <div class="stakeholder-grid">
+        <div class="stakeholder-card">
+            <h4>Paciente</h4>
+            <p>Usuario principal, accede a recursos educativos y comunicación médica.</p>
+        </div>
+        <div class="stakeholder-card">
+            <h4>Familiar/Cuidador</h4>
+            <p>Apoya el cumplimiento del plan de cuidados y utiliza el canal digital para resolver inquietudes propias y del paciente.</p>
+        </div>
+        <div class="stakeholder-card">
+            <h4>Personal Médico</h4>
+            <p>Resuelve consultas, gestiona citas y monitorea el proceso de recuperación.</p>
+        </div>
+        <div class="stakeholder-card">
+            <h4>Administrador</h4>
+            <p>Gestiona usuarios, contenidos y supervisa el correcto funcionamiento de la plataforma.</p>
+        </div>
+    </div>
+</section>
+
+<section id="metodologia-desarrollo">
+    <h2>Metodología de Desarrollo</h2>
+    <div class="info-box">
+        <p>
+            Se utiliza <strong>Scrum adaptado</strong> para equipos reducidos, con ciclos iterativos quincenales. Incluye integración sistemática de feedback de usuarios y trazabilidad de requisitos. La priorización dinámica permite ajustes ágiles ante nuevas necesidades identificadas durante el semestre.
+        </p>
+    </div>
+</section>
+
+<section id="herramientas-colaborativas">
+    <h2>Herramientas Colaborativas</h2>
+    <table>
+        <tr>
+            <th>Función</th>
+            <th>Herramienta</th>
+            <th>Propósito</th>
+        </tr>
+        <tr>
+            <td>Control de versiones</td>
+            <td>GitHub</td>
+            <td>Gestión y almacenamiento del código fuente.</td>
+        </tr>
+        <tr>
+            <td>Gestión de tareas</td>
+            <td>GitHub Projects</td>
+            <td>Organización de backlog y avance de sprints.</td>
+        </tr>
+        <tr>
+            <td>Comunicación interna</td>
+            <td>Discord</td>
+            <td>Canal directo para trabajo colaborativo y reuniones.</td>
+        </tr>
+        <tr>
+            <td>Documentación técnica</td>
+            <td>Markdown en GitHub</td>
+            <td>Manual de usuario, SRS, diagramas y documentación viva.</td>
+        </tr>
+    </table>
+</section>
+
+<section id="planificacion">
+    <h2>Planificación Semestral</h2>
+    <table>
+        <tr>
+            <th>Fase</th>
+            <th>Semanas</th>
+            <th>Objetivo</th>
+        </tr>
+        <tr>
+            <td>Análisis y documentación inicial</td>
+            <td>1 - 3</td>
+            <td>Definir problema, contexto, casos de uso y actores principales.</td>
+        </tr>
+        <tr>
+            <td>Diseño y arquitectura</td>
+            <td>4 - 8</td>
+            <td>Modelos de datos, interfaces gráficas y estructura técnica.</td>
+        </tr>
+        <tr>
+            <td>Desarrollo e implementación</td>
+            <td>9 - 15</td>
+            <td>Construcción de módulos principales y validación incremental.</td>
+        </tr>
+        <tr>
+            <td>Pruebas integradas</td>
+            <td>16 - 18</td>
+            <td>Testeo funcional, revisión de calidad y verificación de requisitos.</td>
+        </tr>
+        <tr>
+            <td>Documentación y entrega</td>
+            <td>19 - 20</td>
+            <td>Compilación de manuales, presentación y cierre del semestre.</td>
+        </tr>
+    </table>
+</section>
+
+<section id="documentacion">
+    <h2>Estructura Documental</h2>
+    <div class="info-box">
+        <ul>
+            <li><strong>Contexto y alcance del sistema</strong></li>
+            <li><strong>Requisitos funcionales y no funcionales</strong></li>
+            <li><strong>Diseño de arquitectura y componentes</strong></li>
+            <li><strong>Modelos de datos y diagramas técnicos</strong></li>
+            <li><strong>Manual de operación para usuarios</strong></li>
+            <li><strong>Trazabilidad de requisitos y resultados de pruebas</strong></li>
+        </ul>
+    </div>
+</section>
+
+<section id="arquitectura-tecnica">
+    <h2>Arquitectura Técnica Propuesta</h2>
+    <div class="info-box">
+        <h4>Frontend</h4>
+        <ul>
+            <li>Aplicación web responsive orientada a pacientes y familiares</li>
+            <li>Panel administrativo para profesionales médicos</li>
+            <li>Diseño accesible y centrado en experiencia de usuario</li>
+        </ul>
+        <h4>Backend</h4>
+        <ul>
+            <li>API REST para gestión de usuarios y citas</li>
+            <li>Control de autenticación y roles</li>
+            <li>Módulo de comunicación interna</li>
+        </ul>
+        <h4>Base de datos</h4>
+        <ul>
+            <li>Estructura normalizada para usuarios, consultas y comunicaciones</li>
+            <li>Gestión eficiente de registros y auditoría de actividad</li>
+        </ul>
+    </div>
+</section>
+
+<section id="funcionalidades-clave">
+    <h2>Funcionalidades Clave</h2>
+    <div class="info-box success">
+        <div class="timeline">
+            <div class="timeline-item">
+                <strong>Portal de información educativa:</strong>
+                <p>Acceso a guías y materiales de apoyo sobre cuidados postoperatorios.</p>
+            </div>
+            <div class="timeline-item">
+                <strong>Comunicación directa:</strong>
+                <p>Mensajería segura entre paciente, familia y personal médico.</p>
+            </div>
+            <div class="timeline-item">
+                <strong>Gestión de citas médicas:</strong>
+                <p>Solicitud, confirmación y seguimiento de citas desde la plataforma.</p>
+            </div>
+            <div class="timeline-item">
+                <strong>Panel clínico:</strong>
+                <p>Visualización del estado de los pacientes y sus solicitudes.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="kpis-exito">
+    <h2>KPIs y Criterios de Éxito</h2>
+    <table>
+        <tr>
+            <th>Dimensión</th>
+            <th>Métrica</th>
+            <th>Meta</th>
+        </tr>
+        <tr>
+            <td>Funcional</td>
+            <td>Requisitos implementados</td>
+            <td>100%</td>
+        </tr>
+        <tr>
+            <td>Usabilidad</td>
+            <td>Satisfacción de usuario</td>
+            <td>≥ 4.5/5</td>
+        </tr>
+        <tr>
+            <td>Técnica</td>
+            <td>Tiempo de respuesta API p95</td>
+            <td>&lt; 300 ms</td>
+        </tr>
+        <tr>
+            <td>Disponibilidad</td>
+            <td>Uptime backend y base de datos</td>
+            <td>≥ 99.5%</td>
+        </tr>
+        <tr>
+            <td>Seguridad</td>
+            <td>Incidentes de protección de datos</td>
+            <td>0</td>
+        </tr>
+    </table>
+</section>
+
+<section id="equipo">
+    <h2>Equipo de Trabajo</h2>
+    <div class="equipo-info">
+        <strong>Integrantes:</strong> Samuel Alvarez, Paolo Paredes, Ignacio Morales<br>
+        <strong>Carrera:</strong> Ingeniería Civil Informática<br>
+        <strong>Universidad:</strong> Universidad de La Frontera<br>
+        <strong>Periodo académico:</strong> Semestre 2025-I<br>
+        <strong>Herramientas:</strong> GitHub, Discord, desarrollo local<br>
+    </div>
+</section>
+
+</body>
+</html>
