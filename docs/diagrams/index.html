@@ -3,70 +3,62 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Diagramas</title>
+  <title>Galería de diagramas</title>
+  <base href="./">
   <style>
     :root { color-scheme: light dark; }
     body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; line-height: 1.5; }
     header { padding: 1rem; text-align: center; }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1rem;
-      padding: 1rem;
-    }
-    .card { border: 1px solid #ddd; border-radius: 8px; overflow: hidden; background: #fff; }
+    .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 1rem; padding: 1rem; }
+    .card { border: 1px solid #ddd; border-radius: 8px; overflow: hidden; background: #fff; text-decoration: none; color: inherit; }
     .thumb { display: block; width: 100%; height: auto; }
     .caption { padding: .75rem 1rem; font-size: .95rem; }
-    a { color: inherit; text-decoration: none; }
     a:focus { outline: 2px solid #4c9ffe; outline-offset: 2px; }
   </style>
 </head>
 <body>
   <header>
     <h1>Galería de diagramas</h1>
-    <p>Seleccionar un diagrama para verlo en detalle.</p>
+    <p>Selecciona un diagrama para verlo en detalle.</p>
   </header>
 
-  <main class="gallery">
-    <a class="card" href="viewer.html?img=WhatsApp-Image-2025-09-28-at-18.04.38.jpg&title=Flujo%20-%20Citas%20API">
-      <img class="thumb" src="img/WhatsApp-Image-2025-09-28-at-18.04.38.jpg" alt="Diagrama flujo de citas con API, DB y notificaciones" loading="lazy">
-      <div class="caption">Flujo - Citas API</div>
-    </a>
+  <main id="grid" class="gallery" aria-live="polite"></main>
 
-    <a class="card" href="viewer.html?img=WhatsApp-Image-2025-09-28-at-18.04.39.jpg&title=Proceso%20de%20Cita">
-      <img class="thumb" src="img/WhatsApp-Image-2025-09-28-at-18.04.39.jpg" alt="Flujo de solicitud, validación, propuesta y recordatorio de cita" loading="lazy">
-      <div class="caption">Proceso de Cita</div>
-    </a>
+  <script>
+    // Nombres EXACTOS según tu carpeta docs/diagrams/img/
+    const files = [
+      "WhatsApp Image 2025-09-28 at 18.04.38 (1).jpeg",
+      "WhatsApp Image 2025-09-28 at 18.04.38 (2).jpeg",
+      "WhatsApp Image 2025-09-28 at 18.04.38 (3).jpeg",
+      "WhatsApp Image 2025-09-28 at 18.04.38.jpeg",
+      "WhatsApp Image 2025-09-28 at 18.04.39(1).jpeg",
+      "WhatsApp Image 2025-09-28 at 18.04.39.jpeg",
+      "WhatsApp Image 2025-09-28 at 18.05.09(1).jpeg",
+      "WhatsApp Image 2025-09-28 at 18.05.09.jpeg"
+    ];
 
-    <a class="card" href="viewer.html?img=WhatsApp-Image-2025-09-28-at-18.04.38-2.jpg&title=Mapa%20de%20Navegaci%C3%B3n%20-%20Paciente%20y%20Profesionales">
-      <img class="thumb" src="img/WhatsApp-Image-2025-09-28-at-18.04.38-2.jpg" alt="Mapa de navegación por roles: paciente y profesionales" loading="lazy">
-      <div class="caption">Mapa de Navegación (1)</div>
-    </a>
+    const grid = document.getElementById('grid');
+    files.forEach((name, i) => {
+      const caption = `Diagrama ${i+1}`;
+      const encoded = encodeURIComponent(name);
+      const card = document.createElement('a');
+      card.className = 'card';
+      card.href = `viewer.html?img=${encoded}&title=${encodeURIComponent(caption)}`;
 
-    <a class="card" href="viewer.html?img=WhatsApp-Image-2025-09-28-at-18.04.38-3.jpg&title=Descubrir%20y%20Recomendaciones">
-      <img class="thumb" src="img/WhatsApp-Image-2025-09-28-at-18.04.38-3.jpg" alt="Flujo de descubrir recurso, marcar favorito o completar y recomendaciones" loading="lazy">
-      <div class="caption">Descubrir y Recomendaciones</div>
-    </a>
+      const img = document.createElement('img');
+      img.className = 'thumb';
+      img.loading = 'lazy';
+      img.alt = caption;
+      img.src = `./img/${encoded}`;
 
-    <a class="card" href="viewer.html?img=WhatsApp-Image-2025-09-28-at-18.04.39-1.jpg&title=Casos%20de%20Uso%20por%20Rol">
-      <img class="thumb" src="img/WhatsApp-Image-2025-09-28-at-18.04.39-1.jpg" alt="Casos de uso para paciente, familiar, médico y administrador" loading="lazy">
-      <div class="caption">Casos de Uso por Rol</div>
-    </a>
+      const cap = document.createElement('div');
+      cap.className = 'caption';
+      cap.textContent = caption;
 
-    <a class="card" href="viewer.html?img=WhatsApp-Image-2025-09-28-at-18.05.09.jpg&title=Arquitectura%20Modular%20por%20Rol">
-      <img class="thumb" src="img/WhatsApp-Image-2025-09-28-at-18.05.09.jpg" alt="Arquitectura modular con secciones por roles" loading="lazy">
-      <div class="caption">Arquitectura por Rol</div>
-    </a>
-
-    <a class="card" href="viewer.html?img=WhatsApp-Image-2025-09-28-at-18.04.38-1.jpg&title=Flujo%20de%20Registro%20y%20Seguimiento">
-      <img class="thumb" src="img/WhatsApp-Image-2025-09-28-at-18.04.38-1.jpg" alt="Flujo de registro, evaluación y monitoreo" loading="lazy">
-      <div class="caption">Registro y Seguimiento</div>
-    </a>
-
-    <a class="card" href="viewer.html?img=WhatsApp-Image-2025-09-28-at-18.05.09-1.jpg&title=Mapa%20de%20Stakeholders">
-      <img class="thumb" src="img/WhatsApp-Image-2025-09-28-at-18.05.09-1.jpg" alt="Mapa de stakeholders del proyecto por área" loading="lazy">
-      <div class="caption">Mapa de Stakeholders</div>
-    </a>
-  </main>
+      card.appendChild(img);
+      card.appendChild(cap);
+      grid.appendChild(card);
+    });
+  </script>
 </body>
 </html>
