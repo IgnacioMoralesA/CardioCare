@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Galería de interfaces</title>
+  <base href="./">
+  <style>
+    :root { color-scheme: light dark; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; line-height: 1.5; }
+    header { padding: 1rem; text-align: center; }
+    .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 1rem; padding: 1rem; }
+    .card { border: 1px solid #ddd; border-radius: 8px; overflow: hidden; background: #fff; text-decoration: none; color: inherit; }
+    .thumb { display: block; width: 100%; height: auto; }
+    .caption { padding: .75rem 1rem; font-size: .95rem; }
+    a:focus { outline: 2px solid #4c9ffe; outline-offset: 2px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Interfaces</h1>
+    <p>Seleccionar una pantalla para verla en detalle.</p>
+  </header>
+
+  <main id="grid" class="gallery" aria-live="polite"></main>
+
+  <script>
+    // Añadir aquí todos los nombres EXACTOS que estén en docs/interfaces/img/
+    const files = [
+      "Inicio.jpg",
+      "Patient Details.jpg",
+      "Seguimiento.jpg",
+      "Comunicación.jpg",
+      "Configuración.jpg",
+      "Eventos y Calendario.jpg",
+      "Eventos.jpg"
+    ];
+
+    const grid = document.getElementById('grid');
+    files.forEach((name) => {
+      const caption = name.replace(/\.(jpg|jpeg)$/i, "");
+      const enc = encodeURIComponent(name);           // maneja espacios, acentos y paréntesis
+      const a = document.createElement('a');
+      a.className = 'card';
+      a.href = `viewer.html?img=${enc}&title=${encodeURIComponent(caption)}`;
+
+      const img = document.createElement('img');
+      img.className = 'thumb';
+      img.loading = 'lazy';
+      img.alt = caption;
+      img.src = `./img/${enc}`;
+
+      const cap = document.createElement('div');
+      cap.className = 'caption';
+      cap.textContent = caption;
+
+      a.appendChild(img);
+      a.appendChild(cap);
+      grid.appendChild(a);
+    });
+  </script>
+</body>
+</html>
