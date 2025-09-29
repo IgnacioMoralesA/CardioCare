@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Visor de interfaz</title>
+  <base href="./">
+  <style>
+    :root { color-scheme: light dark; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    header, footer { padding: 1rem; display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; }
+    header { border-bottom: 1px solid #ddd; }
+    main { padding: 1rem; display: grid; place-items: center; }
+    img { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #ddd; }
+    .spacer { flex: 1 1 auto; }
+    a.button { padding: .5rem .9rem; border: 1px solid #ccc; border-radius: 6px; text-decoration: none; color: inherit; }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="button" href="index.html">← Volver</a>
+    <strong id="title">Interfaz</strong>
+    <span class="spacer"></span>
+    <a id="download" class="button" href="#" download>Descargar</a>
+  </header>
+
+  <main>
+    <img id="figure" src="" alt="Interfaz" loading="eager">
+  </main>
+
+  <footer>
+    <small>Usar el zoom del navegador para ampliar detalles.</small>
+  </footer>
+
+  <script>
+    const p = new URLSearchParams(location.search);
+    const file = decodeURIComponent(p.get('img') || '');
+    const title = decodeURIComponent(p.get('title') || 'Interfaz');
+
+    const img = document.getElementById('figure');
+    const h = document.getElementById('title');
+    const dl = document.getElementById('download');
+
+    if (file) {
+      img.src = './img/' + file; // el archivo puede contener espacios/acentos; la URL ya viene decodificada
+      img.alt = title;
+      h.textContent = title;
+      dl.href = img.src;
+      dl.download = file;
+    } else {
+      h.textContent = 'Archivo no especificado';
+    }
+  </script>
+</body>
+</html>
