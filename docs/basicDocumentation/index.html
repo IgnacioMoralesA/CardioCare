@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manual Básico - Sistema de Apoyo Cardíaco</title>
+  <style>
+    body { font-family: Segoe UI, Arial, Verdana, sans-serif; background: #f8fbfd; color: #333; margin:0; padding:0;}
+    header { width:100%; background:#2F80ED; color:#fff; padding:18px 24px; box-sizing: border-box; position:fixed; top:0; left:0; z-index:200; font-size:1.13em; box-shadow:0 2px 9px #0001;}
+    header .content {display:flex;justify-content:space-between;align-items:center;}
+    header .logo { font-size:1.4em;font-weight:bold;}
+    header .slogan { font-size:1em; font-weight:400; opacity:.92;}
+    main { display:flex; max-width: 1180px; margin: 94px auto 34px auto; }
+    nav.toc { width:270px; background: #f6f7fc; border-radius: 18px; padding: 30px 18px 24px 24px; margin-right: 38px; box-shadow:0 2px 16px #2f80ed15; align-self: flex-start; position: sticky; top:92px; height:fit-content; z-index:99; transition:.3s;}
+    nav.toc h2{font-size:1.19em;color:#2F80ED;}
+    nav.toc ul{list-style:none;padding:0;margin:15px 0 0 0;}
+    nav.toc li{margin-bottom:17px;}
+    nav.toc a{color:#1954b4; text-decoration:none;font-size:1.06em;}
+    nav.toc a:hover{ text-decoration:underline;}
+    .toc-toggle{display:none;}
+    .toc-mobile-btn{display:none;}
+    .main{flex: 1 1 0%; background:#fff; border-radius:14px; box-shadow:0 3px 16px #2f80ed17; padding:39px 30px 30px 30px;}
+    h1 { color: #2F80ED; text-align:center; margin:10px 0 20px 0; }
+    h2, h3 { color: #2460aa; margin-top:28px;}
+    .info, .warning, .success { padding: 14px 20px; border-radius: 8px; margin:18px 0;}
+    .info { background:#f2f2f8; border-left:7px solid #2F80ED;}
+    .success { background:#e7f9ed; border-left:7px solid #27AE60;}
+    .warning { background:#fdeceb; border-left:7px solid #EB5757;}
+    .detail { color:#2260b4;font-weight:500; margin-bottom:9px;}
+    ul, ol{margin-bottom:1.1em;}
+    table { border-collapse:collapse;width:100%;background:#fafdff;margin:17px 0;}
+    th,td{border:1px solid #c7d9f5;padding:9px 10px;}
+    th{background: #2F80ED; color:#fff;}
+    dt{font-weight:bold;color:#2F80ED;}
+    .color-paleta{display:flex;flex-wrap:wrap;gap:13px;margin-bottom:19px;}
+    .color-demo{background:#F2F2F2;border-radius:8px;border:2px solid #2F80ED;padding:10px 18px;font-size:1em;color:#222;}
+    .color-azul{border-color:#2F80ED;}
+    .color-verde{border-color:#27AE60;}
+    .color-rojo{border-color:#EB5757;}
+    .color-gris{border-color:#F2F2F2;}
+    .section-title{font-size:1.18em;color:#184e8a;margin-top:24px;}
+    .step-diagram{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end;gap:12px;margin:21px 0;}
+    .step {background:#edeffe;border-radius:11px;padding:18px 22px;min-width:160px;max-width:220px;text-align:center;box-shadow:0 3px 10px #2f80ed12;}
+    .step strong{color:#2F80ED;font-size:1.14em;}
+    .arrow{font-size:2em;margin:0 1px;align-self:center;}
+    .example-card{padding:15px;background:#f4f8ff;border-left:5px solid #27AE60; border-radius:10px; margin:13px 0 20px 0;}
+    .faq{margin-top:26px;}
+    .img-diagram{width:100%;max-width:470px;border-radius:10px;display:block;margin:18px auto;}
+    footer{width:100%;background:#2F80ED;color:#fff;text-align:center;padding:24px 8px 18px 8px;position:relative;bottom:0;border-radius:15px 15px 0 0;font-size:1.07em;margin-top:32px;}
+    @media (max-width:1020px){
+      main{flex-direction:column;}
+      nav.toc{position:static;width:93%;margin:0 auto 22px auto;padding:14px 8vw;}
+      .main{padding:23px 5vw 26px 5vw;}
+    }
+    @media (max-width: 690px){
+      header .content{flex-direction:column;}
+      .main{padding:14px 3vw;}
+      .toc-mobile-btn{display:block;margin-bottom:8px;color:#2F80ED;background:none;border:none;font-size:1.1em;font-weight:bold;}
+      nav.toc{display:none;}
+      nav.toc.show{display:block;}
+    }
+  </style>
+  <script>
+    function toggleTOC() {
+      var toc = document.getElementById('toc');
+      if(toc.classList.contains('show')) toc.classList.remove('show');
+      else toc.classList.add('show');
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <div class="content">
+      <div class="logo">Sistema Postoperatorio Cardíaco</div>
+      <div class="slogan">Manual interactivo para pacientes y familia</div>
+    </div>
+  </header>
+  <main>
+    <button class="toc-mobile-btn" onclick="toggleTOC()">☰ Índice de Contenido</button>
+    <nav id="toc" class="toc" aria-label="Índice de Contenidos">
+      <h2>Tabla de Contenido</h2>
+      <ul>
+        <li><a href="#que-es">¿Qué es y para quién?</a></li>
+        <li><a href="#beneficios">Beneficios</a></li>
+        <li><a href="#usuarios">¿Quién usa el sistema?</a></li>
+        <li><a href="#guia-rapida">Guía de uso rápido</a></li>
+        <li><a href="#flujo-usuario">¿Cómo es el recorrido típico?</a></li>
+        <li><a href="#funciones">Funciones del sistema</a></li>
+        <li><a href="#accesibilidad">Accesibilidad</a></li>
+        <li><a href="#solucion-problemas">Solución de problemas</a></li>
+        <li><a href="#proteccion-datos">Protección de datos</a></li>
+        <li><a href="#guia-visual">Guía visual</a></li>
+        <li><a href="#relatos-familia">Casos prácticos</a></li>
+        <li><a href="#recursos-utiles">Recursos útiles</a></li>
+        <li><a href="#ciclo-recuperacion">Ciclo de recuperación</a></li>
+        <li><a href="#casos">Ejemplos de uso visual</a></li>
+        <li><a href="#faq">Preguntas frecuentes</a></li>
+        <li><a href="#seguridad">Recomendaciones</a></li>
+        <li><a href="#glosario">Glosario</a></li>
+        <li><a href="#colores">Paleta de color</a></li>
+        <li><a href="#contacto">💬 Ayuda y contacto</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <h1 id="que-es">¿Qué es el sistema y para quién está hecho?</h1>
+      <div class="info">
+        <strong>Una ayuda completa para el postoperatorio cardíaco.</strong><br><br>
+        Si usted, un familiar o paciente necesita acompañamiento y control tras una cirugía de corazón, este sistema le ayudará paso a paso. Permite:<br>
+        - Mantener contacto constante con su equipo médico.<br>
+        - Recibir recordatorios y orientación educativa.<br>
+        - Llevar control de citas y síntomas fácilmente.<br><br>
+        <strong>El objetivo:</strong> facilitar la recuperación, mejorar su tranquilidad y prevenir problemas a tiempo. 
+      </div>
+
+      <h2 id="beneficios">¿Por qué usar este sistema?</h2>
+      <ul>
+        <li><b>Menos olvidos:</b> Gracias a los recordatorios automáticos y avisos.</li>
+        <li><b>Información clara:</b> Acceso a guías y videos validados por expertos, fácil de entender.</li>
+        <li><b>Ayuda rápida:</b> Canales directos de consulta con personal médico o familiar.</li>
+        <li><b>Mayor seguridad:</b> Alertas tempranas y monitoreo sin salir de casa.</li>
+        <li><b>Incluye a la familia:</b> Permisos para que un familiar autorizado gestione y supervise el proceso junto al paciente.</li>
+      </ul>
+
+      <h2 id="usuarios">¿Quiénes pueden usarlo?</h2>
+      <table>
+        <tr><th>Rol</th><th>¿Qué hacen?</th><th>Beneficio directo</th></tr>
+        <tr>
+          <td>Paciente</td>
+          <td>Consulta información, agenda citas, marca sus dudas, reporta síntomas.</td>
+          <td>Tranquilidad, control y orientación continua.</td>
+        </tr>
+        <tr>
+          <td>Familiar Cuidador</td>
+          <td>Monitorea estado, ayuda a agendar citas, asiste en el seguimiento.</td>
+          <td>Paz mental, ayuda anticipada y avisos claros.</td>
+        </tr>
+        <tr>
+          <td>Equipo médico</td>
+          <td>Responde mensajes, gestiona datos y citas de varios pacientes.</td>
+          <td>Ahorra tiempo, prioriza casos, da mejor seguimiento.</td>
+        </tr>
+      </table>
+
+      <h2 id="guia-rapida">Guía de uso rápido</h2>
+      <div class="step-diagram">
+        <div class="step"><strong>Paso 1</strong><br>Ingrese con su usuario y clave.<br><span style="font-size:1.9em;">🔑</span></div>
+        <span class="arrow">⟶</span>
+        <div class="step"><strong>Paso 2</strong><br>Vea su panel personal: próximas citas, mensajes y recursos.<br><span style="font-size:1.8em;">📅</span></div>
+        <span class="arrow">⟶</span>
+        <div class="step"><strong>Paso 3</strong><br>Gestione citas, marque dudas y revise guías.<br><span style="font-size:1.8em;">📩</span></div>
+        <span class="arrow">⟶</span>
+        <div class="step"><strong>Paso 4</strong><br>Responda alertas, reciba avisos, mantenga comunicación con su médico.<br><span style="font-size:1.8em;">🔔👨‍⚕️</span></div>
+      </div>
+      <div class="example-card">
+        <b>Ejemplo:</b> <br>
+        Marta, paciente de 65 años, recibe una notificación para tomar su medicamento y un recordatorio de cita. Ella escribe una duda y en menos de 24 horas su cardiólogo responde por mensaje en la plataforma.
+      </div>
+
+      <h2 id="flujo-usuario">¿Cómo es el recorrido típico en la plataforma?</h2>
+      <img src="https://imgur.com/lw8ZdSD.png" alt="Mockup ejemplo panel usuario" class="img-diagram">
+      <p>
+        <b>Resumen:</b> Desde el login, el usuario accede al panel principal, donde puede gestionar citas, acceder a material educativo, registrar síntomas o comunicarse directamente con el equipo de salud. Todo está organizado en menús simples y accesibles.<br>
+        Si hay alertas importantes, el sistema muestra avisos grandes en pantalla o notificaciones.
+      </p>
+
+      <h2 id="funciones">¿Qué funciones tiene?</h2>
+      <ul>
+        <li><b>Información y educación:</b> Manuales, infografías y videos prácticos<br>
+          <span style="font-size:1.2em;">📖</span> <i>Ejemplo: Guía rápida sobre ejercicios permitidos tras la cirugía.</i>
+        </li>
+        <li><b>Mensajes y consultas:</b> Comunicación segura con médicos o familiares<br>
+          <span style="font-size:1.18em;">💬</span> <i>Ejemplo: Escribe tu pregunta y recibe respuesta personalizada.</i>
+        </li>
+        <li><b>Agenda de citas:</b> Solicita, reprograma o cancela encuentros<br>
+          <span style="font-size:1.17em;">📆</span> <i>Ejemplo: Recibe recordatorio de tu próxima consulta médica.</i>
+        </li>
+        <li><b>Alertas y recordatorios:</b> Indicaciones a tiempo para medicamentos, síntomas o controles<br>
+          <span style="font-size:1.14em;">🔔</span> <i>Ejemplo: “Recuerda controlar tu presión hoy”.</i>
+        </li>
+        <li><b>Seguimiento de síntomas:</b> Lleva un registro fácil y muéstralo en consulta<br>
+          <span style="font-size:1.09em;">📝</span> <i>Ejemplo: Marca si tuviste dolor, fiebre o malestar, y cuándo comenzó.</i>
+        </li>
+      </ul>
+
+      <h2 id="accesibilidad">Accesibilidad para todos</h2>
+      <div class="success">
+        <b>El sistema está diseñado para ser fácil de usar por adultos mayores y personas con poca experiencia:</b><br>
+        - Letras y botones grandes.<br>
+        - Buen contraste de colores.<br>
+        - Navegación clara desde cualquier dispositivo.<br>
+        Si tienes problemas visuales o de movilidad, puedes pedir ayuda y recomendar mejoras.
+      </div>
+
+      <h2 id="solucion-problemas">Solución rápida a problemas comunes</h2>
+      <ul>
+        <li><b>No recibo notificaciones:</b> Revisa que tu navegador permita notificaciones. Si no funciona, escribe a soporte.</li>
+        <li><b>No puedo subir adjuntos:</b> Verifica tu conexión y que los archivos no superen el tamaño permitido.</li>
+        <li><b>Pantalla blanca o error:</b> Recarga la página y verifica tu conexión a internet. Si el problema persiste, comunícalo a soporte.</li>
+        <li><b>No sé cómo acceder:</b> Pide ayuda en “¿Olvidó su clave?” o solicita orientación a personal médico o familiar.</li>
+      </ul>
+
+      <h2 id="proteccion-datos">Protección de datos y derechos</h2>
+      <div class="info">
+        <b>Tus datos personales están protegidos:</b> Solo tú, tus familiares autorizados y tu médico podrán ver tu información. Puedes solicitar que tus datos sean borrados o modificados escribiendo a <b>soporte@ejemplo.cl</b>. <br>
+        El sistema cumple con buenas prácticas de confidencialidad y privacidad.
+      </div>
+
+      <h2 id="guia-visual">Guía visual paso a paso</h2>
+      <div class="example-card">
+        <b>¿Cómo agendar una cita?</b><br>
+        <ol>
+        <li>Haz clic en el menú <span style="background:#eef3fb;border-radius:6px;padding:2px 6px;">Mis Citas</span>.</li>
+        <li>Elige “Nueva cita”.</li>
+        <li>Selecciona fecha y médico, pulsa <span style="background:#e7f9ed;border-radius:6px;padding:2px 6px;">Confirmar</span>.</li>
+        </ol>
+        <img src="https://imgur.com/BBZtfas.png" alt="Ejemplo pantalla agendar cita" style="max-width:330px;border-radius:9px;margin-top:9px;">
+        <br><i>Tip: Siempre revisa que la fecha esté correcta antes de confirmar.</i>
+      </div>
+
+      <h2 id="relatos-familia">Relatos y casos prácticos</h2>
+      <div class="example-card">
+        <b>Caso:</b> Juan, luego de su operación, olvidó tomar su medicación. El sistema le envió un recordatorio y su hija Ana también lo vio, avisándole por mensaje. Juan agendó su próxima cita con ayuda de Ana, todo desde el celular.<br><br>
+        <b>Otro caso:</b> María revisó los videos educativos y aprendió los ejercicios recomendados en casa. En su próxima consulta, llevó el registro digital de sus síntomas, para que el médico le pudiera aconsejar mejor.
+      </div>
+
+      <h2 id="recursos-utiles">Recursos y ayudas útiles</h2>
+      <ul>
+        <li><b>Video:</b> <a href="#">¿Cómo agendar una cita?</a></li>
+        <li><b>Infografía:</b> <a href="#">Recuperación segura en casa</a></li>
+        <li><b>Soporte:</b> Usa el botón “Ayuda” o escribe a <b>soporte@ejemplo.cl</b></li>
+        <li><b>Guía básica:</b> <a href="#">Ejercicios recomendados post cirugía</a></li>
+      </ul>
+
+      <h2 id="ciclo-recuperacion">El ciclo de recuperación postoperatoria</h2>
+      <img src="https://imgur.com/Dy3i8Gd.png" alt="Ciclo de recuperación postoperatoria" style="max-width:460px;border-radius:13px;">
+      <p>
+        <b>Paso 1:</b> Cirugía y primer control.<br>
+        <b>Paso 2:</b> Seguimiento digital desde casa.<br>
+        <b>Paso 3:</b> Apoyo familiar y comunicación.<br>
+        <b>Paso 4:</b> Consultas programadas.<br>
+        <b>Paso 5:</b> Recuperación y alta médica.
+      </p>
+
+      <h2 id="casos">Ejemplo visual de panel principal (mockup referencial)</h2>
+      <img src="https://imgur.com/lw8ZdSD.png" alt="Mockup ejemplo panel usuario" class="img-diagram">
+      <p style="text-align:center;font-size:.99em;color:#2978b7;">
+        El panel muestra: <b>próxima cita</b>, acceso directo a <b>mensajes</b>, gráfico de síntomas recientes y acceso a <b>recursos educativos</b>.<br>
+        Puedes personalizar los accesos según tu perfil (paciente, familiar, médico).
+      </p>
+
+      <h2 id="faq">Preguntas frecuentes</h2>
+      <div class="faq">
+        <b>Olvidé mi contraseña</b>: Use la opción "¿Olvidó su clave?" en la pantalla de inicio o escriba a soporte.<br><br>
+        <b>No puedo agendar cita</b>: Verifique tener conexión, intente recargar la página y comunique el problema si persiste.<br><br>
+        <b>¿Puedo usarlo desde el celular?</b> Sí, el sistema funciona desde tu navegador móvil.<br>
+      </div>
+
+      <h2 id="seguridad">Recomendaciones de seguridad</h2>
+      <div class="warning">
+        <ul>
+          <li>No comparta usuarios ni contraseñas y elija claves seguras.</li>
+          <li>Cierre sesión especialmente en dispositivos compartidos.</li>
+          <li>Confirme que los correos y mensajes provengan del sistema oficial o su médico de confianza.</li>
+        </ul>
+        <b>Tip:</b> Si ve alertas rojas o mensajes extraños, consulte con soporte antes de hacer clic.
+      </div>
+
+      <h2 id="glosario">Glosario básico</h2>
+      <dl>
+        <dt>Usuario</dt><dd>Persona registrada (paciente, familiar o médico).</dd>
+        <dt>Cita</dt><dd>Encuentro médico agendado desde la plataforma.</dd>
+        <dt>Recurso educativo</dt><dd>Material práctico: video, texto, imagen guía.</dd>
+        <dt>Notificación</dt><dd>Aviso automático sobre cita, alerta o indicación importante.</dd>
+        <dt>Dashboard</dt><dd>Pantalla principal con todo lo relevante para usted.</dd>
+      </dl>
+
+      <h2 id="colores">Paleta de color utilizada</h2>
+      <div class="color-paleta">
+        <div class="color-demo color-azul">Azul Serenidad<br><small>Títulos principales, botones, enlaces</small></div>
+        <div class="color-demo color-verde">Verde Vitalidad<br><small>Éxito, confirmaciones</small></div>
+        <div class="color-demo color-rojo">Rojo Alerta<br><small>Advertencias, errores</small></div>
+        <div class="color-demo color-gris">Gris Neutro<br><small>Fondos y tarjetas</small></div>
+      </div>
+
+      <h2 id="contacto">Ayuda y contacto</h2>
+      <div style="text-align:center;margin-top:18px;">
+        ¿Dudas? Escriba a <b>soporte@ejemplo.cl</b> <br> o use la función “Ayuda” dentro del sistema.
+      </div>
+    </div>
+  </main>
+  <footer>
+    © 2025 Sistema de Apoyo Cardíaco — V1.0. Manual interactivo para usuarios y familias. Documento generado el 6 octubre 2025.
+  </footer>
+</body>
+</html>
