@@ -1,0 +1,17 @@
+<h2>Dashboard KPIs</h2>
+
+<div *ngIf="loading">
+  <p>Cargando KPIs...</p>
+</div>
+
+<div *ngIf="!loading && errorMessage">
+  <p style="color:red">{{ errorMessage }}</p>
+</div>
+
+<div *ngIf="!loading && kpis">
+  <p><strong>Pacientes Activos:</strong> {{ kpis.pacientesActivos }}</p>
+  <p><strong>Consultas Pendientes:</strong> {{ kpis.consultasPendientes }}</p>
+  <p><strong>Satisfacción General:</strong> {{ kpis.satisfaccion }}%</p>
+  <p><strong>Alertas Críticas:</strong> {{ kpis.alertasCriticas }}</p>
+</div>
+

@@ -1,0 +1,23 @@
+<h2>Lista de Mensajes</h2>
+
+<div *ngIf="loading">
+  <p>Cargando mensajes...</p>
+</div>
+
+<div *ngIf="!loading && errorMessage">
+  <p style="color:red">{{ errorMessage }}</p>
+</div>
+
+<ul *ngIf="!loading && messages.length > 0">
+  <li *ngFor="let msg of messages">
+    <p><strong>Remitente:</strong> {{ msg.sender }}</p>
+    <p><strong>Contenido:</strong> {{ msg.content }}</p>
+    <p><strong>Enviado:</strong> {{ msg.sentAt }}</p>
+    <p><strong>Tag:</strong> {{ msg.tag }}</p>
+    <hr>
+  </li>
+</ul>
+
+<div *ngIf="!loading && messages.length === 0">
+  <p>No hay mensajes disponibles.</p>
+</div>

@@ -1,0 +1,22 @@
+<h2>Detalle del Paciente</h2>
+
+<div *ngIf="loading">
+  <p>Cargando paciente...</p>
+</div>
+
+<div *ngIf="!loading && errorMessage">
+  <p style="color:red">{{ errorMessage }}</p>
+</div>
+
+<div *ngIf="!loading && patient">
+  <p><strong>ID:</strong> {{ patient.id }}</p>
+  <p><strong>RUT:</strong> {{ patient.rut }}</p>
+  <p><strong>Nombre:</strong> {{ patient.nombre }}</p>
+  <p><strong>Apellido:</strong> {{ patient.apellido }}</p>
+  <p><strong>Edad:</strong> {{ patient.edad }} años</p>
+  <p><strong>Prioridad:</strong> {{ patient.prioridad }}</p>
+
+</div>
+
+
+

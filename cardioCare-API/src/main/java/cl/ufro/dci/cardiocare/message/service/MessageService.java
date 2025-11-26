@@ -8,4 +8,6 @@ public interface MessageService {
     List<Message> getMessagesByPatient(Long patientId);
     Message sendMessage(Message message);
     long countUnread();
+
+    List<Message> getAll();
 }

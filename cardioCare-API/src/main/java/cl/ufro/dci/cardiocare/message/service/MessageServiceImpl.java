@@ -14,11 +14,19 @@ public class MessageServiceImpl implements MessageService {
 
     private final MessageRepository repo;
 
+    // Nuevo: obtener todos los mensajes
+    @Override
+    public List<Message> getAll() {
+        return repo.findAll();
+    }
+
+    // Mensajes de un paciente
     @Override
     public List<Message> getMessagesByPatient(Long patientId) {
         return repo.findByPatientId(patientId);
     }
 
+    // Enviar mensaje
     @Override
     public Message sendMessage(Message msg) {
         msg.setFecha(LocalDateTime.now());
@@ -26,8 +34,10 @@ public class MessageServiceImpl implements MessageService {
         return repo.save(msg);
     }
 
+    // Contar mensajes no leídos
     @Override
     public long countUnread() {
         return repo.findAll().stream().filter(m -> !m.isLeido()).count();
     }
 }
+

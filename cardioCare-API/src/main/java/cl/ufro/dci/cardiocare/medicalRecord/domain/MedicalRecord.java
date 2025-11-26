@@ -1,6 +1,7 @@
 package cl.ufro.dci.cardiocare.medicalRecord.domain;
 
 import cl.ufro.dci.cardiocare.patient.domain.Patient;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ public class MedicalRecord {
     private String notas;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "patient_id")
     private Patient patient;
 }
