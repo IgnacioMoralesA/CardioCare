@@ -1,28 +1,28 @@
 package cl.ufro.dci.cardiocare.message.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import java.time.LocalDateTime;
-import java.util.List;
+import lombok.*;
+
+import java.time.Instant;
 
 @Entity
-@Data
+@Table(name = "message")
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long patientId;
-    private String asunto;
+    private Long senderId;      // userId
+    private Long receiverId;    // userId
+    private Long consultationId;
 
-    @Column(columnDefinition = "TEXT")
-    private String contenido;
+    @Column(length = 2000)
+    private String content;
 
-    private boolean leido;
-    private String prioridad;
-    private LocalDateTime fecha;
+    private Instant sentAt = Instant.now();
 
-    @ElementCollection
-    private List<String> tags;
+    private boolean readFlag = false;
 }
+

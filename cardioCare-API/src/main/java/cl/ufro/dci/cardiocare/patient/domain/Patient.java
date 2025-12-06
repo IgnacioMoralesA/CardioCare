@@ -1,26 +1,26 @@
 package cl.ufro.dci.cardiocare.patient.domain;
 
-import cl.ufro.dci.cardiocare.medicalRecord.domain.MedicalRecord;
+import cl.ufro.dci.cardiocare.security.User;
 import jakarta.persistence.*;
-import lombok.Data;
-import java.util.List;
+import lombok.*;
+
+import java.time.LocalDate;
 
 @Entity
-@Data
+@Table(name = "patient")
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Patient {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // same id as user
 
-    private String rut;
-    private String nombre;
-    private String apellido;
-    private int edad;
-    private String prioridad; // Alta, Media, Baja
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    private User user;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
-    private List<MedicalRecord> historial;
-
+    private LocalDate birthDate;
+    private String gender;
+    @Column(length = 2000)
+    private String medicalCondition;
+    private LocalDate surgeryDate;
 }
-

@@ -1,26 +1,32 @@
 package cl.ufro.dci.cardiocare.medicalRecord.domain;
 
-import cl.ufro.dci.cardiocare.patient.domain.Patient;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+
 import java.time.LocalDate;
+import java.time.Instant;
 
 @Entity
-@Data
+@Table(name = "medical_record")
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class MedicalRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate fecha;
-    private String diagnostico;
-    private String notas;
+    private Long patientId;
 
-    @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name = "patient_id")
-    private Patient patient;
+    private LocalDate recordDate;
+
+    @Column(length = 5000)
+    private String description;
+
+    @Column(length = 2000)
+    private String recommendations;
+
+    private String createdBy; // doctor email or ID
+
+    private Instant createdAt = Instant.now();
 }
 
