@@ -19,4 +19,7 @@ public class RegisterRequest {
 
     @NotBlank
     private String role; // ROLE_ADMIN, ROLE_PATIENT, ROLE_MEDIC, ROLE_FAMILY
+
+    @NotBlank
+    private String phone;
 }

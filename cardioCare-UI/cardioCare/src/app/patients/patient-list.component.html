@@ -1,9 +1,0 @@
-<h2>Pacientes</h2>
-
-<ul>
-  <li *ngFor="let p of patients">
-    <a [routerLink]="['/patients', p.id]">
-      {{ p.nombre }} ({{ p.edad }} años)
-    </a>
-  </li>
-</ul>

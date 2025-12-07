@@ -1,7 +1,15 @@
-<div class="navbar">
-  <button routerLink="/dashboard">Dashboard</button>
-  <button routerLink="/patients">Pacientes</button>
-  <button routerLink="/messages">Mensajes</button>
-  <button routerLink="/reports">Reportes</button>
-</div>
+<nav class="navbar">
+  <div class="logo">CardioCare</div>
 
+  <div class="user-actions" *ngIf="isLoggedIn">
+
+    <app-notification></app-notification>
+
+    <button class="btn-logout" (click)="logout()">Salir</button>
+  </div>
+
+  <div class="auth-links" *ngIf="!isLoggedIn">
+    <a routerLink="/login">Ingresar</a>
+    <a routerLink="/register">Registrarse</a>
+  </div>
+</nav>

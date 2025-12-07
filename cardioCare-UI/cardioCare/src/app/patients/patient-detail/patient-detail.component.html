@@ -1,0 +1,68 @@
+<div class="detail-container">
+
+  <header class="detail-header">
+    <button routerLink="/patients" class="btn-back">← Volver a la lista</button>
+    <h2>Ficha del Paciente</h2>
+  </header>
+
+  <div *ngIf="loading" class="loading-state">Cargando datos...</div>
+  <div *ngIf="error" class="error-state">{{ error }}</div>
+
+  <div *ngIf="patient" class="profile-grid">
+
+    <div class="card info-card">
+      <div class="card-header">
+        <h3>Datos Personales</h3>
+      </div>
+      <div class="card-body">
+        <div class="profile-avatar">
+          <span>{{ patient.name.charAt(0) }}</span>
+        </div>
+        <h2 class="patient-name">{{ patient.name }}</h2>
+        <p class="patient-email">{{ patient.email }}</p>
+
+        <hr>
+
+        <div class="data-row">
+          <strong>ID Sistema:</strong>
+          <span>#{{ patient.id }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card clinical-card">
+      <div class="card-header">
+        <h3>Antecedentes Clínicos</h3>
+      </div>
+      <div class="card-body">
+
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Fecha de Nacimiento</label>
+            <p>{{ patient.birthDate | date:'dd/MM/yyyy' }}</p>
+          </div>
+          <div class="info-item">
+            <label>Edad</label>
+            <p>{{ getAge(patient.birthDate) }} años</p>
+          </div>
+          <div class="info-item">
+            <label>Género</label>
+            <p>{{ patient.gender }}</p>
+          </div>
+          <div class="info-item">
+            <label>Fecha Cirugía</label>
+            <p *ngIf="patient.surgeryDate">{{ patient.surgeryDate | date:'dd/MM/yyyy' }}</p>
+            <p *ngIf="!patient.surgeryDate" class="text-muted">No registrada</p>
+          </div>
+        </div>
+
+        <div class="condition-box">
+          <label>Condición Médica / Diagnóstico</label>
+          <p>{{ patient.medicalCondition }}</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

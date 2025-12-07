@@ -1,0 +1,73 @@
+<div class="messaging-container">
+
+  <header>
+    <h2>Centro de Mensajería</h2>
+    <div class="tabs">
+      <button
+        [class.active]="activeTab === 'CHAT'"
+        (click)="activeTab = 'CHAT'">
+        Chat Consulta #{{ currentConsultationId }}
+      </button>
+      <button
+        [class.active]="activeTab === 'INBOX'"
+        (click)="activeTab = 'INBOX'">
+        Bandeja de Entrada
+      </button>
+    </div>
+  </header>
+
+  <div *ngIf="activeTab === 'CHAT'" class="chat-wrapper">
+
+    <div class="chat-history" id="chatContainer">
+      <div *ngIf="chatMessages.length === 0" class="empty-state">
+        No hay mensajes en esta consulta. ¡Escribe el primero!
+      </div>
+
+      <div *ngFor="let msg of chatMessages"
+           class="message-bubble"
+           [ngClass]="{
+             'sent': msg.senderId === currentUserId,
+             'received': msg.senderId !== currentUserId
+           }">
+        <div class="bubble-content">
+          <p>{{ msg.content }}</p>
+          <small class="time">{{ msg.sentAt | date:'HH:mm' }}</small>
+        </div>
+      </div>
+    </div>
+
+    <form [formGroup]="messageForm" (ngSubmit)="sendMessage()" class="chat-input-area">
+      <input
+        type="text"
+        formControlName="content"
+        placeholder="Escribe un mensaje..."
+        autocomplete="off">
+
+      <button type="submit" [disabled]="messageForm.invalid" class="btn-send">
+        ➤
+      </button>
+    </form>
+  </div>
+
+  <div *ngIf="activeTab === 'INBOX'" class="inbox-wrapper">
+    <h3>Mensajes Recibidos</h3>
+
+    <div class="inbox-list">
+      <div *ngFor="let msg of inboxMessages" class="inbox-item" [class.unread]="!msg.readFlag">
+        <div class="inbox-header">
+          <strong>De: Usuario #{{ msg.senderId }}</strong>
+          <span>{{ msg.sentAt | date:'dd/MM HH:mm' }}</span>
+        </div>
+        <p class="inbox-preview">{{ msg.content }}</p>
+        <div class="inbox-footer">
+          <small>Ref: Consulta #{{ msg.consultationId }}</small>
+        </div>
+      </div>
+
+      <div *ngIf="inboxMessages.length === 0" class="empty-state">
+        Bandeja de entrada vacía.
+      </div>
+    </div>
+  </div>
+
+</div>

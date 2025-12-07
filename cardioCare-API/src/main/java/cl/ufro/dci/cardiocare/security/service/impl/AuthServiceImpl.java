@@ -36,6 +36,7 @@ public class AuthServiceImpl implements AuthService {
         AuthResponse response = new AuthResponse();
         response.setToken(token);
         response.setRole(user.getRole().name());
+        response.setUserId(user.getId());
         return response;
     }
 
@@ -52,8 +53,10 @@ public class AuthServiceImpl implements AuthService {
         User user = User.builder()
                 .email(request.getEmail())
                 .name(request.getName())
+                .phone(request.getPhone()) // 1. Agregamos el teléfono desde el request
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(roleEnum)
+                .createdAt(java.time.Instant.now()) // 2. Forzamos la fecha actual aquí
                 .build();
 
         userRepository.save(user);
@@ -63,6 +66,9 @@ public class AuthServiceImpl implements AuthService {
         res.setEmail(user.getEmail());
         res.setName(user.getName());
         res.setRole(user.getRole().name());
+        // No solemos devolver el teléfono o fecha en el response básico,
+        // pero si lo necesitas puedes agregarlo al DTO UserResponse.
+
         return res;
     }
 }

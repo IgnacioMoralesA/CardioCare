@@ -1,17 +1,47 @@
-<h2>Dashboard KPIs</h2>
+<div class="dashboard-container">
 
-<div *ngIf="loading">
-  <p>Cargando KPIs...</p>
+  <header class="dashboard-header">
+    <h2>Panel de Salud Cardíaca</h2>
+    <p>Monitoreo de signos vitales y estadísticas del paciente.</p>
+  </header>
+
+  <section class="add-widget-section">
+    <h3>Agregar Nuevo Indicador</h3>
+    <form [formGroup]="widgetForm" (ngSubmit)="createWidget()" class="widget-form">
+      <div class="input-group">
+        <input type="text" formControlName="widgetName" placeholder="Nombre del Indicador (Ej: Ritmo Cardíaco)">
+      </div>
+      <div class="input-group">
+        <input type="text" formControlName="dataJson" placeholder='Datos JSON (Ej: {"valor": 120})'>
+      </div>
+      <button type="submit" [disabled]="widgetForm.invalid" class="btn-primary">
+        + Agregar Widget
+      </button>
+    </form>
+  </section>
+
+  <hr>
+
+  <div class="widgets-grid">
+
+    <div *ngIf="dashboardItems.length === 0 && !loading" class="no-data">
+      <p>No hay indicadores configurados para este usuario.</p>
+    </div>
+
+    <div *ngFor="let item of dashboardItems" class="widget-card">
+      <div class="widget-header">
+        <h4>{{ item.widgetName }}</h4>
+        <button (click)="deleteWidget(item.id)" class="btn-delete" title="Eliminar">✕</button>
+      </div>
+
+      <div class="widget-body">
+        <pre>{{ item.dataJson }}</pre>
+      </div>
+
+      <div class="widget-footer">
+        <small>ID: {{ item.id }}</small>
+      </div>
+    </div>
+
+  </div>
 </div>
-
-<div *ngIf="!loading && errorMessage">
-  <p style="color:red">{{ errorMessage }}</p>
-</div>
-
-<div *ngIf="!loading && kpis">
-  <p><strong>Pacientes Activos:</strong> {{ kpis.pacientesActivos }}</p>
-  <p><strong>Consultas Pendientes:</strong> {{ kpis.consultasPendientes }}</p>
-  <p><strong>Satisfacción General:</strong> {{ kpis.satisfaccion }}%</p>
-  <p><strong>Alertas Críticas:</strong> {{ kpis.alertasCriticas }}</p>
-</div>
-

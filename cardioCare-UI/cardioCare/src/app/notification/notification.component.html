@@ -1,0 +1,38 @@
+<div class="notification-container">
+
+  <button class="bell-btn" (click)="toggleDropdown()">
+    <span class="bell-icon">🔔</span>
+    <span *ngIf="unreadCount > 0" class="badge">{{ unreadCount }}</span>
+  </button>
+
+  <div *ngIf="isOpen" class="dropdown-menu">
+    <div class="dropdown-header">
+      <h4>Notificaciones</h4>
+      <button class="btn-refresh" (click)="loadNotifications()">↻</button>
+    </div>
+
+    <div class="notification-list">
+      <div *ngIf="notifications.length === 0" class="empty-state">
+        Sin notificaciones recientes.
+      </div>
+
+      <div *ngFor="let item of notifications"
+           class="notification-item"
+           [ngClass]="{'unread': !item.readFlag, 'read': item.readFlag}"
+           (click)="onNotificationClick(item)">
+
+        <div class="item-icon" [ngClass]="getIconClass(item.type)">
+        </div>
+
+        <div class="item-content">
+          <p class="message">{{ item.message }}</p>
+          <small class="time">{{ item.sentAt | date:'short' }}</small>
+        </div>
+
+        <div *ngIf="!item.readFlag" class="unread-dot"></div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isOpen" class="overlay" (click)="isOpen = false"></div>
+</div>

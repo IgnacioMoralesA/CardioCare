@@ -1,0 +1,84 @@
+<div class="medical-record-container">
+
+  <header>
+    <h2>Ficha Clínica Electrónica</h2>
+    <p>Paciente ID: #{{ currentPatientId }} | Atendido por: {{ currentUserEmail }}</p>
+  </header>
+
+  <section class="new-entry-card">
+    <h3><i class="icon-plus"></i> Nueva Evolución / Consulta</h3>
+
+    <form [formGroup]="recordForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+        <label>Fecha de Atención</label>
+        <input type="date" formControlName="recordDate">
+      </div>
+
+      <div class="form-group">
+        <label>Descripción / Diagnóstico / Anamnesis</label>
+        <textarea
+          formControlName="description"
+          rows="4"
+          placeholder="Describa los síntomas, observaciones y diagnóstico del paciente...">
+        </textarea>
+        <div *ngIf="recordForm.get('description')?.invalid && recordForm.get('description')?.touched" class="error">
+          La descripción es obligatoria (mínimo 10 caracteres).
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Recomendaciones / Tratamiento</label>
+        <textarea
+          formControlName="recommendations"
+          rows="3"
+          placeholder="Indicaciones, medicamentos recetados, reposo...">
+        </textarea>
+      </div>
+
+      <button type="submit" [disabled]="recordForm.invalid" class="btn-save">
+        Guardar Ficha
+      </button>
+    </form>
+  </section>
+
+  <hr class="divider">
+
+  <section class="history-section">
+    <h3>Historial Clínico</h3>
+
+    <div *ngIf="loading" class="loading">Cargando historial...</div>
+    <div *ngIf="records.length === 0 && !loading" class="no-records">
+      No hay registros previos para este paciente.
+    </div>
+
+    <div class="timeline">
+      <article *ngFor="let record of records" class="record-card">
+        <div class="record-header">
+          <span class="record-date">{{ record.recordDate | date:'dd/MM/yyyy' }}</span>
+          <span class="record-doctor">Dr. {{ record.createdBy }}</span>
+
+          <button class="btn-delete-icon" (click)="deleteRecord(record.id)" title="Eliminar Registro">
+            🗑
+          </button>
+        </div>
+
+        <div class="record-body">
+          <div class="section-content">
+            <strong>Diagnóstico / Observaciones:</strong>
+            <p>{{ record.description }}</p>
+          </div>
+
+          <div class="section-content recommendation" *ngIf="record.recommendations">
+            <strong>Tratamiento:</strong>
+            <p>{{ record.recommendations }}</p>
+          </div>
+        </div>
+
+        <div class="record-footer">
+          <small>Registrado en sistema: {{ record.createdAt | date:'short' }}</small>
+        </div>
+      </article>
+    </div>
+  </section>
+</div>

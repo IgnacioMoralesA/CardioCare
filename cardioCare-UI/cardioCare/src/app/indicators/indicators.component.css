@@ -1,0 +1,111 @@
+.indicators-container {
+  padding: 20px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+header h2 {
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+
+/* Card Form */
+.card-form {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  margin-bottom: 25px;
+  border-left: 5px solid #3498db; /* Azul clínico */
+}
+
+.inline-form {
+  display: flex;
+  gap: 15px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  margin-bottom: 4px;
+}
+
+input, select {
+  padding: 8px 12px;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  min-width: 150px;
+}
+
+.short input {
+  min-width: 80px;
+  width: 80px;
+  background-color: #ecf0f1;
+}
+
+.btn-save {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-save:disabled {
+  background-color: #95a5a6;
+}
+
+/* Tabla */
+.clinical-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.clinical-table th {
+  background-color: #ecf0f1;
+  color: #2c3e50;
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.clinical-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+  color: #555;
+}
+
+.value-badge {
+  background-color: #e8f6f3;
+  color: #16a085;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/* Status dots */
+.status-dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: #bdc3c7; /* Default */
+}
+.status-dot.normal { background-color: #2ecc71; }
+.status-dot.alert { background-color: #e74c3c; }
+
+.text-center { text-align: center; }

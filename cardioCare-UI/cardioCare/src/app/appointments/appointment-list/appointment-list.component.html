@@ -1,0 +1,83 @@
+<div class="appointment-container">
+
+  <header>
+    <h2>Agenda de Citas</h2>
+    <p *ngIf="role === 'ROLE_MEDIC'">Gestiona tu disponibilidad y pacientes.</p>
+    <p *ngIf="role !== 'ROLE_MEDIC'">Reserva horas con tus especialistas.</p>
+  </header>
+
+  <section class="booking-card" *ngIf="role === 'ROLE_PATIENT'">
+    <h3>Agendar Nueva Hora</h3>
+    <form [formGroup]="appointmentForm" (ngSubmit)="scheduleAppointment()" class="booking-form">
+
+      <div class="form-group">
+        <label>ID Médico</label>
+        <input type="number" formControlName="medicId" placeholder="Ej: 2">
+      </div>
+
+      <div class="form-group">
+        <label>Fecha y Hora</label>
+        <input type="datetime-local" formControlName="dateTime">
+      </div>
+
+      <div class="form-group">
+        <label>Modalidad</label>
+        <select formControlName="modality">
+          <option value="PRESENTIAL">Presencial</option>
+          <option value="VIRTUAL">Virtual (Telemedicina)</option>
+        </select>
+      </div>
+
+      <div class="form-group full">
+        <label>Motivo / Notas</label>
+        <input type="text" formControlName="notes" placeholder="Ej: Chequeo general">
+      </div>
+
+      <button type="submit" [disabled]="appointmentForm.invalid" class="btn-primary">
+        Confirmar Reserva
+      </button>
+    </form>
+  </section>
+
+  <hr>
+
+  <div class="appointments-grid">
+    <div *ngIf="appointments.length === 0 && !loading" class="empty-state">
+      No hay citas programadas.
+    </div>
+
+    <div *ngFor="let apt of appointments" class="apt-card">
+      <div class="apt-header">
+        <span class="date-badge">
+          {{ apt.dateTime | date:'dd MMM' }} <br>
+          <small>{{ apt.dateTime | date:'HH:mm' }}</small>
+        </span>
+        <div class="status-badge" [ngClass]="getStatusClass(apt.status)">
+          {{ getStatusLabel(apt.status) }}
+        </div>
+      </div>
+
+      <div class="apt-body">
+        <p><strong>Modalidad:</strong> {{ apt.modality }}</p>
+        <p><strong>Notas:</strong> {{ apt.notes }}</p>
+        <p class="meta">
+          <span *ngIf="role === 'ROLE_MEDIC'">Paciente ID: {{ apt.patientId }}</span>
+          <span *ngIf="role !== 'ROLE_MEDIC'">Médico ID: {{ apt.medicId }}</span>
+        </p>
+      </div>
+
+      <div class="apt-actions" *ngIf="role === 'ROLE_MEDIC' && apt.status === 'PENDING'">
+        <button class="btn-confirm" (click)="changeStatus(apt, 'CONFIRMED')">Confirmar</button>
+        <button class="btn-cancel" (click)="changeStatus(apt, 'CANCELLED')">Rechazar</button>
+      </div>
+
+      <div class="apt-actions" *ngIf="role === 'ROLE_MEDIC' && apt.status === 'CONFIRMED'">
+        <button class="btn-complete" (click)="changeStatus(apt, 'COMPLETED')">Finalizar Cita</button>
+      </div>
+
+      <div class="apt-actions" *ngIf="role === 'ROLE_PATIENT' && (apt.status === 'PENDING' || apt.status === 'CONFIRMED')">
+        <button class="btn-cancel" (click)="changeStatus(apt, 'CANCELLED')">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>

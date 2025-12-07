@@ -1,0 +1,99 @@
+/* Contenedor principal centrado */
+.login-container {
+  max-width: 400px;
+  margin: 80px auto; /* Margen superior para separar del navbar */
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 10px; /* Bordes redondeados suaves */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra suave para dar profundidad */
+  text-align: center;
+}
+
+/* Título */
+h2 {
+  color: #2c3e50; /* Azul oscuro profesional */
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+/* Grupos de formulario */
+.form-group {
+  margin-bottom: 20px;
+  text-align: left; /* Etiquetas alineadas a la izquierda */
+}
+
+/* Etiquetas */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555; /* Gris medio para texto secundario */
+  font-size: 0.9rem;
+}
+
+/* Inputs */
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd; /* Borde gris claro sutil */
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  box-sizing: border-box; /* Asegura que el padding no aumente el ancho */
+}
+
+/* Estado de foco en inputs */
+input:focus {
+  outline: none;
+  border-color: #3498db; /* Azul brillante al enfocar */
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); /* Sombra azul suave */
+}
+
+/* Botón de ingreso */
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #16a085; /* Verde azulado (coherente con "Crear Ficha") */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+  margin-top: 10px;
+}
+
+/* Hover del botón */
+button[type="submit"]:hover:not([disabled]) {
+  background-color: #1abc9c; /* Un tono más claro al pasar el mouse */
+}
+
+/* Active (clic) del botón */
+button[type="submit"]:active:not([disabled]) {
+  transform: scale(0.98); /* Pequeño efecto de pulsación */
+}
+
+/* Botón deshabilitado */
+button[type="submit"]:disabled {
+  background-color: #95a5a6; /* Gris para estado inactivo */
+  cursor: not-allowed;
+}
+
+/* Mensajes de error */
+.error {
+  color: #e74c3c; /* Rojo para errores de validación */
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
+
+.alert-error {
+  background-color: #fdecea; /* Fondo rojo muy claro */
+  color: #c0392b; /* Texto rojo oscuro */
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border: 1px solid #e6b0aa;
+  font-size: 0.9rem;
+}

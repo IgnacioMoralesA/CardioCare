@@ -1,0 +1,83 @@
+.patient-container {
+  padding: 20px;
+  background-color: #f0f2f5;
+  min-height: 100vh;
+}
+
+header h2 { color: #2c3e50; margin-bottom: 5px; }
+.hint { font-size: 0.9rem; color: #7f8c8d; margin-bottom: 15px; }
+
+/* Formulario */
+.form-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  margin-bottom: 25px;
+  border-top: 4px solid #16a085; /* Verde azulado clínico */
+}
+
+.patient-form { display: flex; flex-direction: column; gap: 15px; }
+
+.form-row { display: flex; gap: 15px; flex-wrap: wrap; }
+
+.form-group { flex: 1; min-width: 180px; display: flex; flex-direction: column; }
+.form-group.full-width { width: 100%; }
+
+label { font-size: 0.85rem; font-weight: 600; color: #555; margin-bottom: 5px; }
+input, select, textarea { padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+
+.btn-primary {
+  align-self: flex-start;
+  background-color: #16a085;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-primary:disabled { background-color: #a3e4d7; }
+
+/* Tabla */
+.clinical-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.clinical-table th {
+  background-color: #ecf0f1;
+  color: #2c3e50;
+  padding: 12px;
+  text-align: left;
+}
+
+.clinical-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  color: #333;
+}
+
+.text-muted { color: #999; font-size: 0.85rem; }
+.fw-bold { font-weight: 600; }
+
+.actions { display: flex; gap: 10px; }
+.btn-icon {
+  background: none; border: none; font-size: 1.2rem; cursor: pointer;
+  padding: 5px; border-radius: 4px; transition: background 0.2s;
+}
+.btn-icon.view:hover { background-color: #d1f2eb; }
+.btn-icon.delete:hover { background-color: #fadbd8; }
+
+.alert-error {
+  color: #721c24;
+  background-color: #f8d7da;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+.text-center { text-align: center; }

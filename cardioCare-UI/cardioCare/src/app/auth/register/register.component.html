@@ -1,0 +1,63 @@
+<div class="register-container">
+  <h2>Crear Cuenta</h2>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+      <label>Nombre Completo</label>
+      <input type="text" formControlName="name" placeholder="Juan Pérez">
+      <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="error">
+        El nombre es obligatorio.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Correo Electrónico</label>
+      <input type="email" formControlName="email" placeholder="juan@ejemplo.com">
+      <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="error">
+        Ingresa un correo válido.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Teléfono</label>
+      <input type="text" formControlName="phone" placeholder="912345678">
+
+      <div *ngIf="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched" class="error">
+        <span *ngIf="registerForm.get('phone')?.errors?.['required']">
+          El teléfono es obligatorio.
+        </span>
+        <span *ngIf="registerForm.get('phone')?.errors?.['pattern']">
+          Solo se permiten números.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Contraseña</label>
+      <input type="password" formControlName="password" placeholder="Mínimo 6 caracteres">
+      <div *ngIf="registerForm.get('password')?.errors?.['minlength']" class="error">
+        La contraseña debe tener al menos 6 caracteres.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Tipo de Usuario</label>
+      <select formControlName="role">
+        <option *ngFor="let r of roles" [value]="r.value">
+          {{ r.label }}
+        </option>
+      </select>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert-error">
+      {{ errorMessage }}
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid">Registrarse</button>
+  </form>
+
+  <p class="mt-4">
+    ¿Ya tienes cuenta? <a routerLink="/login">Inicia Sesión aquí</a>
+  </p>
+</div>

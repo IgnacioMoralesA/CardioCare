@@ -1,0 +1,82 @@
+<div class="medic-container">
+
+  <header>
+    <h2>Gestión del Personal Médico</h2>
+    <p>Administración de especialistas y perfiles profesionales.</p>
+  </header>
+
+  <section class="admin-panel">
+    <h3>Alta de Especialista</h3>
+    <p class="hint">Ingresa el ID de un usuario registrado para asignarle perfil médico.</p>
+
+    <form [formGroup]="medicForm" (ngSubmit)="onSubmit()" class="medic-form">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>ID Usuario</label>
+          <input type="number" formControlName="userId" placeholder="Ej: 5">
+          <div *ngIf="medicForm.get('userId')?.invalid && medicForm.get('userId')?.touched" class="error">
+            ID requerido.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Especialidad</label>
+          <input type="text" formControlName="specialty" placeholder="Cardiología">
+        </div>
+
+        <div class="form-group">
+          <label>N° Licencia / Matrícula</label>
+          <input type="text" formControlName="licenseNumber" placeholder="RCM-12345">
+        </div>
+      </div>
+
+      <div class="form-group full-width">
+        <label>Disponibilidad (Horario)</label>
+        <textarea formControlName="scheduleJson" rows="2"></textarea>
+      </div>
+
+      <button type="submit" [disabled]="medicForm.invalid" class="btn-primary">
+        + Registrar Médico
+      </button>
+    </form>
+  </section>
+
+  <hr>
+
+  <div *ngIf="errorMessage" class="alert-error">
+    {{ errorMessage }}
+  </div>
+
+  <div class="table-responsive" *ngIf="!loading && !errorMessage">
+    <table class="medic-table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre del Dr(a).</th>
+        <th>Especialidad</th>
+        <th>Licencia</th>
+        <th>Contacto (Email)</th>
+        <th>Acciones</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let m of medics">
+        <td>{{ m.id }}</td>
+        <td class="fw-bold">{{ m.name }}</td>
+        <td>
+          <span class="badge-specialty">{{ m.specialty }}</span>
+        </td>
+        <td>{{ m.licenseNumber }}</td>
+        <td>{{ m.email }}</td>
+        <td>
+          <button class="btn-delete" (click)="deleteMedic(m.id)">Eliminar</button>
+        </td>
+      </tr>
+      <tr *ngIf="medics.length === 0">
+        <td colspan="6" class="text-center">No hay médicos registrados.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
