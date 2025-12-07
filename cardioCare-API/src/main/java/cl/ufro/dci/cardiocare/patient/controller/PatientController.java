@@ -3,9 +3,9 @@ package cl.ufro.dci.cardiocare.patient.controller;
 import cl.ufro.dci.cardiocare.patient.domain.Patient;
 import cl.ufro.dci.cardiocare.patient.service.PatientService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;      // IMPORTANTE
+import org.springframework.data.domain.Pageable;  // IMPORTANTE
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -15,9 +15,10 @@ public class PatientController {
 
     private final PatientService service;
 
+    // Spring inyecta automáticamente 'page', 'size', 'sort' desde la URL
     @GetMapping
-    public List<Patient> listar() {
-        return service.getAll();
+    public Page<Patient> listar(Pageable pageable) {
+        return service.getAll(pageable);
     }
 
     @GetMapping("/{id}")

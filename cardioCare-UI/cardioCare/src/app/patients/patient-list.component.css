@@ -1,0 +1,341 @@
+/* Contenedor Principal */
+.medical-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: #2c3e50; /* Gris oscuro texto principal */
+}
+
+/* Encabezado con degradado Azul Médico */
+.header-card {
+  background: linear-gradient(135deg, #0077b6 0%, #0096c7 100%); /* Azul fuerte a cian */
+  color: white;
+  padding: 30px;
+  border-radius: 15px 15px 0 0;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.header-card h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.header-icon {
+  font-size: 2rem;
+  margin-right: 15px;
+  opacity: 0.9;
+}
+
+/* Cuerpo de la Tabla (Card Blanca) */
+.table-card {
+  background: white;
+  border-radius: 0 0 15px 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  padding: 20px;
+  overflow: hidden;
+}
+
+/* Estilos de la Tabla */
+.med-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.med-table thead th {
+  text-align: left;
+  padding: 15px;
+  color: #7f8c8d; /* Gris suave para títulos */
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #f0f4f8; /* Gris muy claro */
+}
+
+.med-table tbody tr {
+  transition: background-color 0.2s;
+  border-bottom: 1px solid #f0f4f8;
+}
+
+.med-table tbody tr:hover {
+  background-color: #f8fbff; /* Azul muy pálido al pasar el mouse */
+}
+
+.med-table td {
+  padding: 15px;
+  vertical-align: middle;
+}
+
+/* Textos */
+.patient-name {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 1rem;
+}
+
+.rut-text {
+  display: block;
+  font-size: 0.8rem;
+  color: #95a5a6;
+  margin-top: 2px;
+}
+
+/* Badges de Prioridad (Colores directos) */
+.badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+/* Rojo clínico (Alta) */
+.badge-alta {
+  background-color: #fadbd8;
+  color: #c0392b;
+}
+
+/* Naranja alerta (Media) */
+.badge-media {
+  background-color: #fdebd0;
+  color: #d35400;
+}
+
+/* Verde seguro (Baja) */
+.badge-baja {
+  background-color: #d5f5e3;
+  color: #1e8449;
+}
+
+/* Botón de Acción */
+.btn-action {
+  color: #0077b6; /* Azul primario */
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 15px;
+  border-radius: 6px;
+  background-color: transparent;
+  transition: all 0.2s;
+}
+
+.btn-action:hover {
+  background-color: #e1f5fe; /* Fondo azulito al hover */
+}
+
+/* Paginación */
+.pagination-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid #f0f4f8;
+}
+
+.page-btn {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  color: #2c3e50;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.page-btn:hover:not(:disabled) {
+  border-color: #0077b6;
+  color: #0077b6;
+  background-color: #f0f9ff;
+}
+
+.page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #f9f9f9;
+}
+
+.page-info {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.page-info strong {
+  color: #2c3e50;
+}/* Contenedor Principal */
+.medical-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: #2c3e50; /* Gris oscuro texto principal */
+}
+
+/* Encabezado con degradado Azul Médico */
+.header-card {
+  background: linear-gradient(135deg, #0077b6 0%, #0096c7 100%); /* Azul fuerte a cian */
+  color: white;
+  padding: 30px;
+  border-radius: 15px 15px 0 0;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.header-card h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.header-icon {
+  font-size: 2rem;
+  margin-right: 15px;
+  opacity: 0.9;
+}
+
+/* Cuerpo de la Tabla (Card Blanca) */
+.table-card {
+  background: white;
+  border-radius: 0 0 15px 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  padding: 20px;
+  overflow: hidden;
+}
+
+/* Estilos de la Tabla */
+.med-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.med-table thead th {
+  text-align: left;
+  padding: 15px;
+  color: #7f8c8d; /* Gris suave para títulos */
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #f0f4f8; /* Gris muy claro */
+}
+
+.med-table tbody tr {
+  transition: background-color 0.2s;
+  border-bottom: 1px solid #f0f4f8;
+}
+
+.med-table tbody tr:hover {
+  background-color: #f8fbff; /* Azul muy pálido al pasar el mouse */
+}
+
+.med-table td {
+  padding: 15px;
+  vertical-align: middle;
+}
+
+/* Textos */
+.patient-name {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 1rem;
+}
+
+.rut-text {
+  display: block;
+  font-size: 0.8rem;
+  color: #95a5a6;
+  margin-top: 2px;
+}
+
+/* Badges de Prioridad (Colores directos) */
+.badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+/* Rojo clínico (Alta) */
+.badge-alta {
+  background-color: #fadbd8;
+  color: #c0392b;
+}
+
+/* Naranja alerta (Media) */
+.badge-media {
+  background-color: #fdebd0;
+  color: #d35400;
+}
+
+/* Verde seguro (Baja) */
+.badge-baja {
+  background-color: #d5f5e3;
+  color: #1e8449;
+}
+
+/* Botón de Acción */
+.btn-action {
+  color: #0077b6; /* Azul primario */
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 15px;
+  border-radius: 6px;
+  background-color: transparent;
+  transition: all 0.2s;
+}
+
+.btn-action:hover {
+  background-color: #e1f5fe; /* Fondo azulito al hover */
+}
+
+/* Paginación */
+.pagination-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid #f0f4f8;
+}
+
+.page-btn {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  color: #2c3e50;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.page-btn:hover:not(:disabled) {
+  border-color: #0077b6;
+  color: #0077b6;
+  background-color: #f0f9ff;
+}
+
+.page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #f9f9f9;
+}
+
+.page-info {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.page-info strong {
+  color: #2c3e50;
+}

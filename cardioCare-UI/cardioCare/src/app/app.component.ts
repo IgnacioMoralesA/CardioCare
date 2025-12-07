@@ -5,11 +5,12 @@ import { NavbarComponent } from './navbar.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,RouterModule,NavbarComponent],
+  imports: [RouterOutlet, RouterModule, NavbarComponent],
   template: `
     <app-navbar></app-navbar>
     <router-outlet></router-outlet>
   `,
+  standalone: true,
   styleUrl: './app.component.css'
 })
 export class AppComponent {

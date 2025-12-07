@@ -10,4 +10,12 @@ export interface Patient {
   historial: MedicalRecord[];
 }
 
+// AGREGA ESTO AL FINAL DEL ARCHIVO
+export interface PageResponse<T> {
+  content: T[];          // Aquí vienen tus pacientes
+  totalPages: number;    // Total de páginas
+  totalElements: number; // Total de registros
+  size: number;
+  number: number;
+}
 

@@ -1,0 +1,97 @@
+.detail-container {
+  max-width: 900px;
+  margin: 30px auto;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #0077b6;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.loading-state { text-align: center; color: #7f8c8d; font-size: 1.2rem; }
+
+/* Tarjeta Principal (La hoja de papel) */
+.clinical-sheet {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+/* Header */
+.sheet-header {
+  background: linear-gradient(135deg, #0077b6 0%, #0096c7 100%);
+  color: white;
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.sheet-header h1 { margin: 0; font-size: 1.8rem; }
+.rut-badge { background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 4px; font-size: 0.9rem; }
+
+.btn-pdf {
+  background: #ff6b6b; /* Rojo suave */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+}
+.btn-pdf:hover { transform: translateY(-2px); background: #fa5252; }
+
+/* Cuerpo Dividido */
+.sheet-body {
+  display: grid;
+  grid-template-columns: 250px 1fr; /* Izquierda fija, derecha flexible */
+}
+
+/* Panel Izquierdo (Info Personal) */
+.left-panel {
+  background: #f8f9fa;
+  padding: 30px;
+  border-right: 1px solid #eee;
+  text-align: center;
+}
+
+.patient-avatar {
+  width: 100px; height: 100px;
+  background: #e9ecef; color: #adb5bd;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3rem;
+}
+
+.info-group { margin-bottom: 20px; text-align: left; }
+.info-group label { display: block; font-size: 0.75rem; color: #95a5a6; text-transform: uppercase; letter-spacing: 1px; }
+.info-group p { margin: 5px 0 0; font-weight: 600; color: #2c3e50; }
+.warning-text { color: #e67e22; }
+
+/* Badges */
+.priority-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+.high { background: #fadbd8; color: #c0392b; }
+.mid { background: #fdebd0; color: #d35400; }
+.low { background: #d5f5e3; color: #1e8449; }
+
+/* Panel Derecho (Clínico) */
+.right-panel { padding: 30px; }
+
+.section-card { margin-bottom: 25px; }
+.section-card h3 { color: #0077b6; font-size: 1.1rem; border-bottom: 2px solid #f1f3f5; padding-bottom: 8px; margin-bottom: 10px; }
+.highlight-card { background: #e3f2fd; padding: 15px; border-radius: 8px; border-left: 4px solid #2196f3; }
+.highlight-card h3 { border-bottom: none; color: #1565c0; }
+
+/* Grid de Signos Vitales */
+.vitals-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.vital-item { background: #f8f9fa; padding: 10px; border-radius: 6px; text-align: center; }
+.vital-item span { display: block; font-size: 0.75rem; color: #7f8c8d; }
+.vital-item strong { color: #2c3e50; font-size: 1.1rem; }

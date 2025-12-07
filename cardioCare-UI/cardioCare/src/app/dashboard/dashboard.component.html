@@ -1,17 +1,61 @@
-<h2>Dashboard KPIs</h2>
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h2><i class="fas fa-heartbeat text-red"></i> Monitor Cardíaco - KPIs</h2>
+    <span class="date">Actualizado: Hoy</span>
+  </header>
 
-<div *ngIf="loading">
-  <p>Cargando KPIs...</p>
-</div>
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Cargando métricas del sistema...</p>
+  </div>
 
-<div *ngIf="!loading && errorMessage">
-  <p style="color:red">{{ errorMessage }}</p>
-</div>
+  <div *ngIf="!loading && errorMessage" class="error-banner">
+    <i class="fas fa-exclamation-circle"></i>
+    <p>{{ errorMessage }}</p>
+  </div>
 
-<div *ngIf="!loading && kpis">
-  <p><strong>Pacientes Activos:</strong> {{ kpis.pacientesActivos }}</p>
-  <p><strong>Consultas Pendientes:</strong> {{ kpis.consultasPendientes }}</p>
-  <p><strong>Satisfacción General:</strong> {{ kpis.satisfaccion }}%</p>
-  <p><strong>Alertas Críticas:</strong> {{ kpis.alertasCriticas }}</p>
+  <div *ngIf="!loading && kpis" class="kpi-grid">
+
+    <div class="kpi-card blue-accent">
+      <div class="icon-wrapper">
+        <i class="fas fa-procedures"></i>
+      </div>
+      <div class="kpi-content">
+        <h3>Pacientes Activos</h3>
+        <p class="kpi-value">{{ kpis.pacientesActivos }}</p>
+      </div>
+    </div>
+
+    <div class="kpi-card orange-accent">
+      <div class="icon-wrapper">
+        <i class="fas fa-user-md"></i>
+      </div>
+      <div class="kpi-content">
+        <h3>Consultas Pendientes</h3>
+        <p class="kpi-value">{{ kpis.consultasPendientes }}</p>
+      </div>
+    </div>
+
+    <div class="kpi-card green-accent">
+      <div class="icon-wrapper">
+        <i class="fas fa-smile-beam"></i>
+      </div>
+      <div class="kpi-content">
+        <h3>Satisfacción General</h3>
+        <p class="kpi-value">{{ kpis.satisfaccion }}%</p>
+      </div>
+    </div>
+
+    <div class="kpi-card red-accent" [class.pulse-alert]="kpis.alertasCriticas > 0">
+      <div class="icon-wrapper">
+        <i class="fas fa-heart-broken"></i>
+      </div>
+      <div class="kpi-content">
+        <h3>Alertas Críticas</h3>
+        <p class="kpi-value text-danger">{{ kpis.alertasCriticas }}</p>
+      </div>
+    </div>
+
+  </div>
 </div>
 

@@ -1,23 +1,65 @@
-<h2>Lista de Mensajes</h2>
+<div class="inbox-container">
 
-<div *ngIf="loading">
-  <p>Cargando mensajes...</p>
-</div>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h3>Mensajes</h3>
+    </div>
 
-<div *ngIf="!loading && errorMessage">
-  <p style="color:red">{{ errorMessage }}</p>
-</div>
+    <div class="contact-list">
+      <div *ngFor="let sender of senders"
+           class="contact-item"
+           [class.active]="selectedSender === sender"
+           (click)="selectChat(sender)">
 
-<ul *ngIf="!loading && messages.length > 0">
-  <li *ngFor="let msg of messages">
-    <p><strong>Remitente:</strong> {{ msg.sender }}</p>
-    <p><strong>Contenido:</strong> {{ msg.content }}</p>
-    <p><strong>Enviado:</strong> {{ msg.sentAt }}</p>
-    <p><strong>Tag:</strong> {{ msg.tag }}</p>
-    <hr>
-  </li>
-</ul>
+        <div class="avatar small" [style.background]="getAvatarColor(sender)">
+          {{ getInitials(sender) }}
+        </div>
 
-<div *ngIf="!loading && messages.length === 0">
-  <p>No hay mensajes disponibles.</p>
+        <div class="contact-info">
+          <span class="contact-name">{{ sender }}</span>
+          <span class="last-msg-preview">Haga clic para ver historial</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="chat-area">
+
+    <header class="chat-header" *ngIf="selectedSender">
+      <div class="avatar" [style.background]="getAvatarColor(selectedSender)">
+        {{ getInitials(selectedSender) }}
+      </div>
+      <div class="chat-title">
+        <h2>{{ selectedSender }}</h2>
+        <span class="status">Personal Médico</span>
+      </div>
+    </header>
+
+    <div class="messages-feed" *ngIf="selectedSender; else emptyState">
+      <div *ngFor="let msg of currentMessages" class="message-bubble-row">
+
+        <div class="message-bubble received">
+          <p>{{ msg.content }}</p>
+          <div class="message-meta">
+            <span>{{ msg.sentAt | date:'shortTime' }}</span>
+            <span *ngIf="msg.tag" class="tag">{{ msg.tag }}</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <ng-template #emptyState>
+      <div class="empty-placeholder">
+        <i class="far fa-paper-plane"></i>
+        <p>Selecciona una conversación para leer</p>
+      </div>
+    </ng-template>
+
+    <div class="chat-input-area" *ngIf="selectedSender">
+      <input type="text" placeholder="No se puede responder a este mensaje automático" disabled>
+    </div>
+
+  </main>
+
 </div>

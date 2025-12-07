@@ -1,21 +1,98 @@
-<h2>Detalle del Paciente</h2>
+<div class="detail-container">
 
-<div *ngIf="loading">
-  <p>Cargando paciente...</p>
-</div>
+  <a routerLink="/patients" class="back-link">
+    <i class="fas fa-arrow-left"></i> Volver a la lista
+  </a>
 
-<div *ngIf="!loading && errorMessage">
-  <p style="color:red">{{ errorMessage }}</p>
-</div>
+  <div *ngIf="loading" class="loading-state">
+    <i class="fas fa-spinner fa-spin"></i> Cargando ficha...
+  </div>
 
-<div *ngIf="!loading && patient">
-  <p><strong>ID:</strong> {{ patient.id }}</p>
-  <p><strong>RUT:</strong> {{ patient.rut }}</p>
-  <p><strong>Nombre:</strong> {{ patient.nombre }}</p>
-  <p><strong>Apellido:</strong> {{ patient.apellido }}</p>
-  <p><strong>Edad:</strong> {{ patient.edad }} años</p>
-  <p><strong>Prioridad:</strong> {{ patient.prioridad }}</p>
+  <div *ngIf="!loading && patient" class="clinical-sheet">
 
+    <div class="sheet-header">
+      <div>
+        <h1>{{ patient.nombre }} {{ patient.apellido }}</h1>
+        <span class="rut-badge">RUT: {{ patient.rut }}</span>
+      </div>
+      <button (click)="downloadClinicalPDF()" class="btn-pdf">
+        <i class="fas fa-file-pdf"></i> Exportar Ficha
+      </button>
+    </div>
+
+    <div class="sheet-body">
+
+      <div class="left-panel">
+        <div class="patient-avatar">
+          <i class="fas fa-user"></i>
+        </div>
+
+        <div class="info-group">
+          <label>Edad</label>
+          <p>{{ patient.edad }} años</p>
+        </div>
+
+        <div class="info-group">
+          <label>Prioridad</label>
+          <span class="priority-badge"
+                [ngClass]="{
+                  'high': patient.prioridad === 'Alta',
+                  'mid': patient.prioridad === 'Media',
+                  'low': patient.prioridad === 'Baja'
+                }">
+            {{ patient.prioridad }}
+          </span>
+        </div>
+
+        <div class="info-group">
+          <label>Grupo Sanguíneo</label>
+          <p>{{ clinicalData.grupoSanguineo }}</p>
+        </div>
+
+        <div class="info-group">
+          <label>Alergias</label>
+          <p class="warning-text">{{ clinicalData.alergias }}</p>
+        </div>
+      </div>
+
+      <div class="right-panel">
+
+        <div class="section-card">
+          <h3><i class="fas fa-heartbeat"></i> Signos Vitales (Última toma)</h3>
+          <div class="vitals-grid">
+            <div class="vital-item">
+              <span>Presión Arterial</span>
+              <strong>{{ clinicalData.presionArterial }}</strong>
+            </div>
+            <div class="vital-item">
+              <span>Frecuencia Cardíaca</span>
+              <strong>{{ clinicalData.frecuenciaCardiaca }}</strong>
+            </div>
+            <div class="vital-item">
+              <span>Peso / Altura</span>
+              <strong>{{ clinicalData.peso }} / {{ clinicalData.altura }}</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <h3><i class="fas fa-stethoscope"></i> Diagnóstico Médico</h3>
+          <p>{{ clinicalData.diagnostico }}</p>
+        </div>
+
+        <div class="section-card highlight-card">
+          <h3><i class="fas fa-pills"></i> Tratamiento Activo</h3>
+          <p>{{ clinicalData.tratamiento }}</p>
+        </div>
+
+        <div class="section-card">
+          <h3><i class="fas fa-notes-medical"></i> Observaciones</h3>
+          <p>{{ clinicalData.observaciones }}</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </div>
 
 

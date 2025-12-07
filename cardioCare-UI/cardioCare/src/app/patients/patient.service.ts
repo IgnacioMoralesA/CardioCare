@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http'; // <--- IMPORTA HttpParams
 import { Observable } from 'rxjs';
-import { Patient } from '../models/patient';
+import { Patient, PageResponse } from '../models/patient'; // <--- IMPORTA PageResponse
 
 @Injectable({ providedIn: 'root' })
 export class PatientService {
@@ -9,8 +9,14 @@ export class PatientService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Patient[]> {
-    return this.http.get<Patient[]>(this.api);
+  // Modificamos el método para recibir página y tamaño
+  getAll(page: number, size: number): Observable<PageResponse<Patient>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    // Ahora esperamos un PageResponse, no un array directo
+    return this.http.get<PageResponse<Patient>>(this.api, { params });
   }
 
   getById(id: number): Observable<Patient> {
