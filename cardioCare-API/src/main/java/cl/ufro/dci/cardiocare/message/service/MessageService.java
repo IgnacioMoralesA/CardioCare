@@ -1,13 +1,12 @@
 package cl.ufro.dci.cardiocare.message.service;
 
-import cl.ufro.dci.cardiocare.message.domain.Message;
+import cl.ufro.dci.cardiocare.message.dto.*;
 
 import java.util.List;
 
 public interface MessageService {
-    List<Message> getMessagesByPatient(Long patientId);
-    Message sendMessage(Message message);
-    long countUnread();
-
-    List<Message> getAll();
+    MessageResponse send(MessageRequest request);
+    List<MessageResponse> getByConsultation(Long consultationId);
+    List<MessageResponse> getInbox(Long receiverId);
+    List<MessageResponse> getSent(Long senderId);
 }

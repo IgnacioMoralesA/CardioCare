@@ -1,4 +1,4 @@
-package cl.ufro.dci.cardiocare.security;
+package cl.ufro.dci.cardiocare.security.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
