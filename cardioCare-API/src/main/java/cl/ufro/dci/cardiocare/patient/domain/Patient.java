@@ -1,6 +1,6 @@
 package cl.ufro.dci.cardiocare.patient.domain;
 
-import cl.ufro.dci.cardiocare.security.User;
+import cl.ufro.dci.cardiocare.security.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 
