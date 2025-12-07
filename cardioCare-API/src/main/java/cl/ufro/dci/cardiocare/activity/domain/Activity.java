@@ -1,6 +1,7 @@
 package cl.ufro.dci.cardiocare.activity.domain;
 
 import cl.ufro.dci.cardiocare.patient.domain.Patient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +19,7 @@ public class Activity {
     // Relación con Patient
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id", nullable = false)
+    @JsonIgnore
     private Patient patient;
 
     // Tipo predefinido de actividad

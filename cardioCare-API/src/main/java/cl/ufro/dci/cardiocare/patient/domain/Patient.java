@@ -26,6 +26,4 @@ public class Patient {
     @Column(length = 2000)
     private String medicalCondition;
     private LocalDate surgeryDate;
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Activity> activities = new ArrayList<>();
 }
