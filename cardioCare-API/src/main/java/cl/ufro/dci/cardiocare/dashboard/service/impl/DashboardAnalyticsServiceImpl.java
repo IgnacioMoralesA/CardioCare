@@ -23,61 +23,63 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DashboardAnalyticsServiceImpl implements DashboardAnalyticsService {
 
-    private final ActivityRepository activityRepository;
-    private final IndicatorRepository indicatorRepository;
-    private final AppointmentRepository appointmentRepository;
+        private final ActivityRepository activityRepository;
+        private final IndicatorRepository indicatorRepository;
+        private final AppointmentRepository appointmentRepository;
+        private final cl.ufro.dci.cardiocare.patient.repository.PatientRepository patientRepository;
 
-    @Override
-    public PatientProgressDTO getPatientProgress(Long patientId) {
-        // 1. Calculate Activity Adherence
-        List<Activity> allActivities = activityRepository.findByPatientId(patientId);
-        long total = allActivities.size();
-        long completed = allActivities.stream().filter(Activity::isDone).count();
-        double adherence = total > 0 ? (double) completed / total * 100 : 0.0;
+        @Override
+        public PatientProgressDTO getPatientProgress(Long patientId) {
+                // 0. Verify Patient Existence and Get Entity
+                cl.ufro.dci.cardiocare.patient.domain.Patient patient = patientRepository.findById(patientId)
+                                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException(
+                                                "Paciente no encontrado"));
 
-        // 2. Get Next Appointment
-        // Assuming repository has a method for upcoming appointments or filtering list
-        // For now, we'll fetch all and filter in memory if specific query doesn't
-        // exist,
-        // to be safe, but ideally repo should handle it.
-        // Let's assume we find one after NOW.
-        LocalDateTime nextAppt = appointmentRepository.findByPatientId(patientId).stream()
-                .filter(a -> a.getDateTime().isAfter(LocalDateTime.now()))
-                .map(cl.ufro.dci.cardiocare.appointment.domain.Appointment::getDateTime)
-                .min(LocalDateTime::compareTo)
-                .orElse(null);
+                // 1. Calculate Activity Adherence
+                List<Activity> allActivities = activityRepository.findByPatient(patient);
+                long total = allActivities.size();
+                long completed = allActivities.stream().filter(Activity::isDone).count();
+                double adherence = total > 0 ? (double) completed / total * 100 : 0.0;
 
-        // 3. Get Vital Signs Trends
-        List<Indicator> indicators = indicatorRepository.findByMedicalRecord_PatientId(patientId);
+                // 2. Get Next Appointment
+                LocalDateTime nextAppt = appointmentRepository.findByPatientId(patientId).stream()
+                                .filter(a -> a.getDateTime().toLocalDateTime().isAfter(LocalDateTime.now()))
+                                .map(a -> a.getDateTime().toLocalDateTime())
+                                .min(LocalDateTime::compareTo)
+                                .orElse(null);
 
-        // Group by Type
-        Map<String, List<Indicator>> byType = indicators.stream()
-                .collect(Collectors.groupingBy(Indicator::getType));
+                // 3. Get Vital Signs Trends
+                List<Indicator> indicators = indicatorRepository.findByMedicalRecord_PatientId(patientId);
 
-        List<IndicatorTrendDTO> trends = byType.entrySet().stream()
-                .map(entry -> {
-                    String type = entry.getKey();
-                    List<Indicator> typeList = entry.getValue();
-                    String unit = typeList.isEmpty() ? "" : typeList.get(0).getUnit();
+                // Group by Type
+                Map<String, List<Indicator>> byType = indicators.stream()
+                                .collect(Collectors.groupingBy(Indicator::getType));
 
-                    List<GraphDataPoint> points = typeList.stream()
-                            .map(i -> new GraphDataPoint(
-                                    i.getTimestamp().atZone(java.time.ZoneId.systemDefault()).toLocalDate(),
-                                    i.getValue()))
-                            .sorted((p1, p2) -> p1.getDate().compareTo(p2.getDate()))
-                            .collect(Collectors.toList());
+                List<IndicatorTrendDTO> trends = byType.entrySet().stream()
+                                .map(entry -> {
+                                        String type = entry.getKey();
+                                        List<Indicator> typeList = entry.getValue();
+                                        String unit = typeList.isEmpty() ? "" : typeList.get(0).getUnit();
 
-                    return new IndicatorTrendDTO(type, unit, points);
-                })
-                .collect(Collectors.toList());
+                                        List<GraphDataPoint> points = typeList.stream()
+                                                        .map(i -> new GraphDataPoint(
+                                                                        i.getTimestamp().atZone(java.time.ZoneId
+                                                                                        .systemDefault()).toLocalDate(),
+                                                                        i.getValue()))
+                                                        .sorted((p1, p2) -> p1.getDate().compareTo(p2.getDate()))
+                                                        .collect(Collectors.toList());
 
-        return PatientProgressDTO.builder()
-                .patientId(patientId)
-                .totalActivities(total)
-                .completedActivities(completed)
-                .adherencePercentage(adherence)
-                .nextAppointment(nextAppt)
-                .vitalSigns(trends)
-                .build();
-    }
+                                        return new IndicatorTrendDTO(type, unit, points);
+                                })
+                                .collect(Collectors.toList());
+
+                return PatientProgressDTO.builder()
+                                .patientId(patientId)
+                                .totalActivities(total)
+                                .completedActivities(completed)
+                                .adherencePercentage(adherence)
+                                .nextAppointment(nextAppt)
+                                .vitalSigns(trends)
+                                .build();
+        }
 }
