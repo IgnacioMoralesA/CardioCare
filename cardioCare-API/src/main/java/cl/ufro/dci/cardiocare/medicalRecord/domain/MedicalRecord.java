@@ -11,14 +11,20 @@ import java.util.List;
 
 @Entity
 @Table(name = "medical_record")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class MedicalRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long patientId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id", nullable = false)
+    private cl.ufro.dci.cardiocare.patient.domain.Patient patient;
 
     private LocalDate recordDate;
 
@@ -38,4 +44,3 @@ public class MedicalRecord {
     @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL)
     private List<Indicator> indicators;
 }
-

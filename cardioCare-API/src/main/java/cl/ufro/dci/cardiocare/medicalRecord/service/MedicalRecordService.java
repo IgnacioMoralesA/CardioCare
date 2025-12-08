@@ -6,6 +6,10 @@ import java.util.List;
 
 public interface MedicalRecordService {
     MedicalRecordResponse create(MedicalRecordRequest request);
+
+    List<MedicalRecordResponse> getHistory(Long patientId);
+
     List<MedicalRecordResponse> getByPatient(Long patientId);
     void delete(Long id);
+
 }

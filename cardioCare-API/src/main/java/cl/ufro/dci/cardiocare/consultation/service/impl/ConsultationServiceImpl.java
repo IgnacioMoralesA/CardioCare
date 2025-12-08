@@ -16,12 +16,23 @@ import java.util.List;
 public class ConsultationServiceImpl implements ConsultationService {
 
     private final ConsultationRepository repo;
+    private final cl.ufro.dci.cardiocare.patient.repository.PatientRepository patientRepo;
+    private final cl.ufro.dci.cardiocare.medic.repository.MedicRepository medicRepo;
 
     @Override
     public ConsultationResponse create(ConsultationRequest req) {
+        cl.ufro.dci.cardiocare.patient.domain.Patient patient = patientRepo.findById(req.getPatientId())
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Paciente no encontrado"));
+
         Consultation c = new Consultation();
-        c.setPatientId(req.getPatientId());
-        c.setMedicId(req.getMedicId());
+        c.setPatient(patient);
+
+        if (req.getMedicId() != null) {
+            cl.ufro.dci.cardiocare.medic.domain.Medic medic = medicRepo.findById(req.getMedicId())
+                    .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Médico no encontrado"));
+            c.setMedic(medic);
+        }
+
         c.setMessage(req.getMessage());
         c.setPriority(req.getPriority());
         c.setStatus("OPEN");
@@ -53,12 +64,12 @@ public class ConsultationServiceImpl implements ConsultationService {
 
     @Override
     public List<ConsultationResponse> getByPatient(Long patientId) {
-        return repo.findByPatientId(patientId).stream().map(this::toResponse).toList();
+        return repo.findByPatient_Id(patientId).stream().map(this::toResponse).toList();
     }
 
     @Override
     public List<ConsultationResponse> getByMedic(Long medicId) {
-        return repo.findByMedicId(medicId).stream().map(this::toResponse).toList();
+        return repo.findByMedic_Id(medicId).stream().map(this::toResponse).toList();
     }
 
     @Override
@@ -69,8 +80,8 @@ public class ConsultationServiceImpl implements ConsultationService {
     private ConsultationResponse toResponse(Consultation c) {
         ConsultationResponse r = new ConsultationResponse();
         r.setId(c.getId());
-        r.setPatientId(c.getPatientId());
-        r.setMedicId(c.getMedicId());
+        r.setPatientId(c.getPatient().getId());
+        r.setMedicId(c.getMedic() != null ? c.getMedic().getId() : null);
         r.setMessage(c.getMessage());
         r.setPriority(c.getPriority());
         r.setStatus(c.getStatus());

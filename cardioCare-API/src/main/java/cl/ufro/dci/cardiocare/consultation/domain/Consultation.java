@@ -7,13 +7,23 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "consultation")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Consultation {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long patientId;
-    private Long medicId; // nullable until assigned
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id", nullable = false)
+    private cl.ufro.dci.cardiocare.patient.domain.Patient patient;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "medic_id")
+    private cl.ufro.dci.cardiocare.medic.domain.Medic medic; // nullable until assigned
 
     @Column(length = 4000)
     private String message;

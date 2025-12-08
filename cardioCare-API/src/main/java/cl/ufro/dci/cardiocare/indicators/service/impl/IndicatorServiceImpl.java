@@ -55,7 +55,7 @@ public class IndicatorServiceImpl implements IndicatorService {
     private IndicatorResponse toResponse(Indicator i) {
         IndicatorResponse r = new IndicatorResponse();
         r.setId(i.getId());
-        r.setPatientId(i.getMedicalRecord().getPatientId()); // Derive patientId from MedicalRecord
+        r.setPatientId(i.getMedicalRecord().getPatient().getId()); // Derive patientId from MedicalRecord
         r.setType(i.getType());
         r.setValue(i.getValue());
         r.setTimestamp(i.getTimestamp());
