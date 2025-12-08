@@ -1,5 +1,6 @@
 package cl.ufro.dci.cardiocare.activity.domain;
 
+import cl.ufro.dci.cardiocare.medicalRecord.domain.MedicalRecord;
 import cl.ufro.dci.cardiocare.patient.domain.Patient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -35,4 +36,9 @@ public class Activity {
 
     @Column(name = "activity_date", nullable = false)
     private LocalDate activityDate;
+
+    @ManyToOne
+    @JoinColumn(name = "medical_record_id")
+    private MedicalRecord medicalRecord;
+
 }

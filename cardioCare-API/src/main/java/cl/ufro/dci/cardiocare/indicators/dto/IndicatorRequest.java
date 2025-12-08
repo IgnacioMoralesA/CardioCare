@@ -7,7 +7,8 @@ import lombok.Data;
 public class IndicatorRequest {
 
     @NotNull
-    private Long patientId;
+    @NotNull
+    private Long medicalRecordId;
 
     @NotBlank
     private String type;

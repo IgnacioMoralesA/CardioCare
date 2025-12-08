@@ -1,10 +1,13 @@
 package cl.ufro.dci.cardiocare.medicalRecord.domain;
 
+import cl.ufro.dci.cardiocare.activity.domain.Activity;
+import cl.ufro.dci.cardiocare.indicators.domain.Indicator;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Table(name = "medical_record")
@@ -28,5 +31,11 @@ public class MedicalRecord {
     private String createdBy; // doctor email or ID
 
     private Instant createdAt = Instant.now();
+
+    @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL)
+    private List<Activity> activities;
+
+    @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL)
+    private List<Indicator> indicators;
 }
 

@@ -1,6 +1,7 @@
 package cl.ufro.dci.cardiocare.indicators.domain;
 
 
+import cl.ufro.dci.cardiocare.medicalRecord.domain.MedicalRecord;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +16,9 @@ public class Indicator {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long patientId;
+    @ManyToOne
+    @JoinColumn(name = "medical_record_id", nullable = false)
+    private MedicalRecord medicalRecord;
 
     private String type; // e.g. HEART_RATE, BLOOD_PRESSURE, SPO2
 

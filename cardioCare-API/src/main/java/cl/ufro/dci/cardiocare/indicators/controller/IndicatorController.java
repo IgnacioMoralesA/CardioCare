@@ -25,4 +25,9 @@ public class IndicatorController {
     public ResponseEntity<List<IndicatorResponse>> getByPatient(@PathVariable Long id) {
         return ResponseEntity.ok(service.getByPatient(id));
     }
+
+    @GetMapping("/medical-record/{id}")
+    public ResponseEntity<List<IndicatorResponse>> getByMedicalRecord(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getByMedicalRecord(id));
+    }
 }

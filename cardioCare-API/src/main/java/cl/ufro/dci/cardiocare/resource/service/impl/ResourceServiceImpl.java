@@ -12,6 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@org.springframework.transaction.annotation.Transactional
 public class ResourceServiceImpl implements ResourceService {
 
     private final ResourceRepository repo;
@@ -34,7 +35,7 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     public ResourceResponse getById(Long id) {
         Resource r = repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Recurso no encontrado"));
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Recurso no encontrado"));
         return toResponse(r);
     }
 

@@ -12,12 +12,18 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@org.springframework.transaction.annotation.Transactional
 public class MedicalRecordServiceImpl implements MedicalRecordService {
 
     private final MedicalRecordRepository repo;
+    private final cl.ufro.dci.cardiocare.patient.repository.PatientRepository patientRepo;
 
     @Override
     public MedicalRecordResponse create(MedicalRecordRequest req) {
+        if (!patientRepo.existsById(req.getPatientId())) {
+            throw new jakarta.persistence.EntityNotFoundException("Paciente no encontrado");
+        }
+
         MedicalRecord mr = new MedicalRecord();
         mr.setPatientId(req.getPatientId());
         mr.setRecordDate(req.getRecordDate());
@@ -51,6 +57,21 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
         r.setRecommendations(mr.getRecommendations());
         r.setCreatedBy(mr.getCreatedBy());
         r.setCreatedAt(mr.getCreatedAt());
+
+        if (mr.getIndicators() != null) {
+            r.setIndicators(mr.getIndicators().stream()
+                    .map(i -> {
+                        cl.ufro.dci.cardiocare.indicators.dto.IndicatorResponse ir = new cl.ufro.dci.cardiocare.indicators.dto.IndicatorResponse();
+                        ir.setId(i.getId());
+                        ir.setPatientId(mr.getPatientId());
+                        ir.setType(i.getType());
+                        ir.setValue(i.getValue());
+                        ir.setTimestamp(i.getTimestamp());
+                        ir.setUnit(i.getUnit());
+                        return ir;
+                    }).toList());
+        }
+
         return r;
     }
 }
