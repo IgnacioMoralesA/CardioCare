@@ -1,0 +1,91 @@
+<div class="consultation-container">
+
+  <header>
+    <h2>Centro de Consultas</h2>
+  </header>
+
+  <section class="create-card" *ngIf="!selectedConsultation && (role === 'ROLE_PATIENT' || role === 'ROLE_FAMILY')">
+    <h3><i class="icon-plus"></i> Nueva Consulta</h3>
+    <form [formGroup]="createForm" (ngSubmit)="createConsultation()" class="form-inline">
+      <select formControlName="priority">
+        <option value="MEDIUM">Prioridad Media</option>
+        <option value="HIGH">Alta</option>
+        <option value="LOW">Baja</option>
+      </select>
+      <input type="number" formControlName="medicId" placeholder="ID Médico (Opcional)">
+      <input type="text" formControlName="message" placeholder="Motivo de la consulta..." class="input-msg">
+      <button type="submit" [disabled]="createForm.invalid">Crear</button>
+    </form>
+  </section>
+
+  <div class="main-layout">
+
+    <div class="list-column">
+      <div *ngFor="let c of consultations"
+           class="consultation-item"
+           [class.active]="selectedConsultation?.id === c.id"
+           (click)="selectConsultation(c)">
+
+        <div class="item-header">
+          <span class="id-badge">#{{ c.id }}</span>
+          <span class="date">{{ c.sentAt | date:'dd/MM' }}</span>
+        </div>
+
+        <div class="item-body">
+          <span class="badge" [ngClass]="getPriorityClass(c.priority)">{{ c.priority }}</span>
+          <p class="preview">{{ c.message }}</p>
+        </div>
+
+        <div class="item-footer">
+          <small *ngIf="c.status === 'OPEN'" class="status-open">Abierta</small>
+          <small *ngIf="c.status !== 'OPEN'" class="status-closed">Cerrada</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-column" *ngIf="selectedConsultation">
+
+      <div class="chat-header">
+        <div>
+          <h3>Consulta #{{ selectedConsultation.id }}</h3>
+          <span class="status-pill" [class.closed]="selectedConsultation.status !== 'OPEN'">
+            {{ selectedConsultation.status }}
+          </span>
+        </div>
+        <button class="btn-close" (click)="selectedConsultation = null">✕</button>
+      </div>
+
+      <div class="chat-history" id="chatContainer">
+
+        <div class="system-msg">
+          <p><strong>Motivo Inicial:</strong> {{ selectedConsultation.message }}</p>
+        </div>
+
+        <div *ngFor="let msg of chatMessages"
+             class="msg-bubble"
+             [ngClass]="{'sent': msg.senderId === currentUserId, 'received': msg.senderId !== currentUserId}">
+          <div class="bubble-content">
+            <p>{{ msg.content }}</p>
+            <span class="time">{{ msg.sentAt | date:'HH:mm' }}</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="chat-input-area">
+        <form [formGroup]="chatForm" (ngSubmit)="sendMessage()">
+          <input type="text" formControlName="content" placeholder="Escribe un mensaje..." autocomplete="off">
+          <button type="submit" [disabled]="chatForm.invalid">➤</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="detail-column empty" *ngIf="!selectedConsultation">
+      <div class="placeholder">
+        <h3>Selecciona una consulta</h3>
+        <p>Haz clic en el ID de la izquierda para ver el chat.</p>
+      </div>
+    </div>
+
+  </div>
+</div>

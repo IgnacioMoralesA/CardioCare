@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DashboardItemRequest, DashboardItemResponse } from '../models/dashboard.model';
+import {
+  PatientProgressDTO,
+  DashboardItemResponse,
+  DashboardItemRequest
+} from '../models/dashboard.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,18 +16,21 @@ export class DashboardService {
 
   constructor(private http: HttpClient) { }
 
-  // Crear un nuevo widget
-  create(item: DashboardItemRequest): Observable<DashboardItemResponse> {
-    return this.http.post<DashboardItemResponse>(this.apiUrl, item);
+  // --- ANALYTICS ---
+  getPatientProgress(patientId: number): Observable<PatientProgressDTO> {
+    return this.http.get<PatientProgressDTO>(`${this.apiUrl}/analytics/patient/${patientId}`);
   }
 
-  // Obtener widgets por ID de dueño
-  getByOwner(ownerId: number): Observable<DashboardItemResponse[]> {
+  // --- DASHBOARD ITEMS (WIDGETS) ---
+  createItem(request: DashboardItemRequest): Observable<DashboardItemResponse> {
+    return this.http.post<DashboardItemResponse>(this.apiUrl, request);
+  }
+
+  getItemsByOwner(ownerId: number): Observable<DashboardItemResponse[]> {
     return this.http.get<DashboardItemResponse[]>(`${this.apiUrl}/owner/${ownerId}`);
   }
 
-  // Eliminar widget
-  delete(id: number): Observable<void> {
+  deleteItem(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

@@ -11,7 +11,7 @@ public class IndicatorMapper {
         return IndicatorDTO.builder()
                 .id(i.getId())
                 .medicalRecordId(i.getMedicalRecord().getId())
-                .patientId(i.getMedicalRecord().getPatientId())
+                .patientId(i.getMedicalRecord().getPatient().getId())
                 .type(i.getType())
                 .value(i.getValue())
                 .unit(i.getUnit())

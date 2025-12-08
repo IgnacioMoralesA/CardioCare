@@ -13,8 +13,10 @@ import { MedicalRecordComponent } from './medical-record/medical-record.componen
 import { PatientListComponent } from './patients/patient-list/patient-list.component';
 import { PatientDetailComponent } from './patients/patient-detail/patient-detail.component';
 import { AppointmentListComponent } from './appointments/appointment-list/appointment-list.component';
-// Importamos el componente de Indicadores
 import { IndicatorsComponent } from './indicators/indicators.component';
+
+// --- NUEVO: Importamos el componente de Consultas ---
+import { ConsultationListComponent } from './consultations/consultation-list/consultation-list.component';
 
 export const routes: Routes = [
   // --- RUTAS PÚBLICAS (No requieren token) ---
@@ -32,8 +34,14 @@ export const routes: Routes = [
     component: DashboardComponent,
     canActivate: [AuthGuard]
   },
+  // NUEVA RUTA: Dashboard de un paciente específico (Para médicos)
   {
-    path: 'indicators', // <--- Nueva ruta agregada
+    path: 'dashboard/:patientId',
+    component: DashboardComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'indicators',
     component: IndicatorsComponent,
     canActivate: [AuthGuard]
   },
@@ -42,10 +50,17 @@ export const routes: Routes = [
     component: MessageListComponent,
     canActivate: [AuthGuard]
   },
+  // --- NUEVA RUTA DE CONSULTAS MÉDICAS ---
+  {
+    path: 'consultations',
+    component: ConsultationListComponent,
+    canActivate: [AuthGuard]
+  },
+  // ----------------------------------------
   {
     path: 'medics',
     component: MedicListComponent,
-    canActivate: [AuthGuard] // Nota: Asegúrate que el usuario sea ADMIN para ver esto
+    canActivate: [AuthGuard]
   },
   {
     path: 'medical-records',

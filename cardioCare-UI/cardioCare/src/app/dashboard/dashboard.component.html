@@ -1,47 +1,104 @@
 <div class="dashboard-container">
 
-  <header class="dashboard-header">
-    <h2>Panel de Salud Cardíaca</h2>
-    <p>Monitoreo de signos vitales y estadísticas del paciente.</p>
+  <header class="dash-header">
+    <div>
+      <h1>Panel de Control Médico</h1>
+      <p>Monitorización Centralizada</p>
+    </div>
+    <button class="btn-builder" (click)="showBuilder = !showBuilder">
+      {{ showBuilder ? 'Cancelar' : '+ Nuevo Monitor' }}
+    </button>
   </header>
 
-  <section class="add-widget-section">
-    <h3>Agregar Nuevo Indicador</h3>
-    <form [formGroup]="widgetForm" (ngSubmit)="createWidget()" class="widget-form">
-      <div class="input-group">
-        <input type="text" formControlName="widgetName" placeholder="Nombre del Indicador (Ej: Ritmo Cardíaco)">
+  <section *ngIf="showBuilder" class="builder-panel">
+    <h3>Configurar Monitor</h3>
+    <form [formGroup]="builderForm" (ngSubmit)="addWidget()" class="builder-form">
+
+      <div class="form-group">
+        <label>Paciente Objetivo</label>
+        <select formControlName="patientId">
+          <option value="" disabled>Seleccione...</option>
+          <option *ngFor="let p of patientsList" [value]="p.id">
+            {{ p.name }} (ID: {{p.id}})
+          </option>
+        </select>
       </div>
-      <div class="input-group">
-        <input type="text" formControlName="dataJson" placeholder='Datos JSON (Ej: {"valor": 120})'>
+
+      <div class="form-group">
+        <label>Métrica</label>
+        <select formControlName="metric">
+          <option *ngFor="let m of availableMetrics" [value]="m.value">{{ m.label }}</option>
+        </select>
       </div>
-      <button type="submit" [disabled]="widgetForm.invalid" class="btn-primary">
-        + Agregar Widget
-      </button>
+
+      <div class="form-group">
+        <label>Visualización</label>
+        <select formControlName="type">
+          <option *ngFor="let t of availableTypes" [value]="t.value">{{ t.label }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Etiqueta / Título</label>
+        <input type="text" formControlName="title" placeholder="Ej: Ritmo Juan">
+      </div>
+
+      <div class="form-group">
+        <label>Color</label>
+        <input type="color" formControlName="color" class="color-picker">
+      </div>
+
+      <button type="submit" [disabled]="builderForm.invalid" class="btn-add">Guardar</button>
     </form>
   </section>
 
-  <hr>
-
   <div class="widgets-grid">
+    <div *ngFor="let w of widgets" class="widget-card" [style.border-top-color]="w.parsedConfig?.color">
 
-    <div *ngIf="dashboardItems.length === 0 && !loading" class="no-data">
-      <p>No hay indicadores configurados para este usuario.</p>
-    </div>
-
-    <div *ngFor="let item of dashboardItems" class="widget-card">
       <div class="widget-header">
-        <h4>{{ item.widgetName }}</h4>
-        <button (click)="deleteWidget(item.id)" class="btn-delete" title="Eliminar">✕</button>
+        <div class="header-text">
+          <h4>{{ w.parsedConfig?.title }}</h4>
+
+          <span class="patient-badge">
+            👤 {{ w.parsedConfig?.targetPatientName || 'Paciente #' + w.parsedConfig?.targetPatientId }}
+          </span>
+        </div>
+
+        <button (click)="deleteWidget(w.id)" class="btn-remove">×</button>
       </div>
 
-      <div class="widget-body">
-        <pre>{{ item.dataJson }}</pre>
-      </div>
+      <div class="widget-body" [ngSwitch]="w.parsedConfig?.type">
 
-      <div class="widget-footer">
-        <small>ID: {{ item.id }}</small>
+        <div *ngSwitchCase="'STAT_CARD'" class="stat-display">
+          <span class="big-number" [style.color]="w.parsedConfig?.color">
+            {{ getMetricValue(w.parsedConfig) }}
+          </span>
+          <small>Último dato</small>
+        </div>
+
+        <div *ngSwitchCase="'BAR_CHART'" class="chart-container">
+          <div class="bars-wrapper">
+            <div *ngFor="let point of getMetricHistory(w.parsedConfig)"
+                 class="bar-group"
+                 title="{{ point.date }}: {{ point.value }}">
+              <div class="bar"
+                   [style.height.px]="point.value / 2"
+                   [style.background-color]="w.parsedConfig?.color">
+              </div>
+              <span class="bar-label">{{ point.date | date:'dd' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div *ngSwitchCase="'PROGRESS_CIRCLE'" class="circle-display">
+          <div class="progress-circle"
+               [style.--p]="w.parsedConfig?.metric === 'ACTIVITY' ? getAdherence(w.parsedConfig) : 0"
+               [style.--c]="w.parsedConfig?.color">
+            <span>{{ w.parsedConfig?.metric === 'ACTIVITY' ? (getAdherence(w.parsedConfig) | number:'1.0-0') : 'N/A' }}%</span>
+          </div>
+        </div>
+
       </div>
     </div>
-
   </div>
 </div>
