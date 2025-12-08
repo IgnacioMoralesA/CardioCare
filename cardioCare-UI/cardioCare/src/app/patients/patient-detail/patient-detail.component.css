@@ -99,3 +99,13 @@
 .text-muted { color: #aaa; font-style: italic; }
 .loading-state { text-align: center; padding: 40px; font-size: 1.2rem; color: #666; }
 .error-state { color: red; text-align: center; padding: 20px; }
+
+.section-divider {
+  margin: 40px 0;
+  border: 0;
+  border-top: 2px solid #e0e0e0;
+}
+
+.medical-record-wrapper {
+  margin-top: 20px;
+}

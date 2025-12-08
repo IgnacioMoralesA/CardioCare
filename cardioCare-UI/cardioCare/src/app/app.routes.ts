@@ -67,6 +67,11 @@ export const routes: Routes = [
     component: AppointmentListComponent,
     canActivate: [AuthGuard]
   },
+  {
+    path: 'medical-records/:recordId/indicators',
+    component: IndicatorsComponent,
+    canActivate: [AuthGuard]
+  },
 
   // --- WILDCARD ---
   { path: '**', redirectTo: 'dashboard' }

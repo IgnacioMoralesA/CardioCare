@@ -12,22 +12,18 @@ export class MessageService {
 
   constructor(private http: HttpClient) { }
 
-  // Enviar mensaje
   send(request: MessageRequest): Observable<MessageResponse> {
     return this.http.post<MessageResponse>(this.apiUrl, request);
   }
 
-  // Obtener conversación de una consulta (Chat)
   getByConsultation(id: number): Observable<MessageResponse[]> {
     return this.http.get<MessageResponse[]>(`${this.apiUrl}/consultation/${id}`);
   }
 
-  // Obtener bandeja de entrada
   getInbox(userId: number): Observable<MessageResponse[]> {
     return this.http.get<MessageResponse[]>(`${this.apiUrl}/inbox/${userId}`);
   }
 
-  // Obtener enviados
   getSent(userId: number): Observable<MessageResponse[]> {
     return this.http.get<MessageResponse[]>(`${this.apiUrl}/sent/${userId}`);
   }

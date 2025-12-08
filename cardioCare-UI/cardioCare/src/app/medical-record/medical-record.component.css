@@ -113,3 +113,34 @@ textarea:focus, input:focus {
 }
 
 .error { color: #e74c3c; font-size: 0.85rem; margin-top: 5px; }
+
+/* Contenedor del botón */
+.record-actions {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px dashed #e0e0e0; /* Línea punteada separadora */
+  text-align: right; /* Alineado a la derecha */
+}
+
+/* Estilo del botón */
+.btn-indicators {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #fff0f0; /* Fondo rosado muy claro */
+  color: #c0392b; /* Rojo oscuro */
+  border: 1px solid #e6b0aa;
+  padding: 6px 12px;
+  border-radius: 20px; /* Bordes redondeados */
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-indicators:hover {
+  background-color: #e74c3c;
+  color: white;
+  border-color: #e74c3c;
+  transform: translateY(-2px); /* Pequeño efecto de elevación */
+  box-shadow: 0 2px 5px rgba(231, 76, 60, 0.3);
+}

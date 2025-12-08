@@ -1,73 +1,88 @@
-<div class="messaging-container">
+<div class="messenger-container">
 
-  <header>
-    <h2>Centro de Mensajería</h2>
-    <div class="tabs">
-      <button
-        [class.active]="activeTab === 'CHAT'"
-        (click)="activeTab = 'CHAT'">
-        Chat Consulta #{{ currentConsultationId }}
-      </button>
-      <button
-        [class.active]="activeTab === 'INBOX'"
-        (click)="activeTab = 'INBOX'">
-        Bandeja de Entrada
-      </button>
-    </div>
-  </header>
-
-  <div *ngIf="activeTab === 'CHAT'" class="chat-wrapper">
-
-    <div class="chat-history" id="chatContainer">
-      <div *ngIf="chatMessages.length === 0" class="empty-state">
-        No hay mensajes en esta consulta. ¡Escribe el primero!
-      </div>
-
-      <div *ngFor="let msg of chatMessages"
-           class="message-bubble"
-           [ngClass]="{
-             'sent': msg.senderId === currentUserId,
-             'received': msg.senderId !== currentUserId
-           }">
-        <div class="bubble-content">
-          <p>{{ msg.content }}</p>
-          <small class="time">{{ msg.sentAt | date:'HH:mm' }}</small>
-        </div>
-      </div>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h3>Mensajes</h3>
+      <button class="btn-icon" (click)="showNewChatModal = true" title="Nuevo Chat">+</button>
     </div>
 
-    <form [formGroup]="messageForm" (ngSubmit)="sendMessage()" class="chat-input-area">
-      <input
-        type="text"
-        formControlName="content"
-        placeholder="Escribe un mensaje..."
-        autocomplete="off">
+    <div class="thread-list">
+      <div *ngFor="let thread of threads"
+           class="thread-item"
+           [class.active]="activeThread?.consultationId === thread.consultationId"
+           (click)="selectThread(thread)">
 
-      <button type="submit" [disabled]="messageForm.invalid" class="btn-send">
-        ➤
-      </button>
-    </form>
-  </div>
+        <div class="avatar">{{ thread.partnerId }}</div>
 
-  <div *ngIf="activeTab === 'INBOX'" class="inbox-wrapper">
-    <h3>Mensajes Recibidos</h3>
-
-    <div class="inbox-list">
-      <div *ngFor="let msg of inboxMessages" class="inbox-item" [class.unread]="!msg.readFlag">
-        <div class="inbox-header">
-          <strong>De: Usuario #{{ msg.senderId }}</strong>
-          <span>{{ msg.sentAt | date:'dd/MM HH:mm' }}</span>
-        </div>
-        <p class="inbox-preview">{{ msg.content }}</p>
-        <div class="inbox-footer">
-          <small>Ref: Consulta #{{ msg.consultationId }}</small>
+        <div class="thread-info">
+          <div class="thread-meta">
+            <strong>Usuario #{{ thread.partnerId }}</strong>
+            <small>{{ thread.lastDate | date:'dd/MM' }}</small>
+          </div>
+          <p class="preview">
+            <span class="cid-tag">#{{ thread.consultationId }}</span>
+            {{ thread.lastMessage }}
+          </p>
         </div>
       </div>
 
-      <div *ngIf="inboxMessages.length === 0" class="empty-state">
-        Bandeja de entrada vacía.
+      <div *ngIf="threads.length === 0" class="empty-state">
+        No hay conversaciones.
       </div>
     </div>
-  </div>
+  </aside>
 
+  <main class="chat-area">
+
+    <div *ngIf="showNewChatModal" class="new-chat-wrapper">
+      <h2>Iniciar Nueva Conversación</h2>
+      <form [formGroup]="newChatForm" (ngSubmit)="startNewChat()" class="form-card">
+        <div class="form-group">
+          <label>ID Usuario Destino</label>
+          <input type="number" formControlName="receiverId" placeholder="Ej: 5">
+        </div>
+        <div class="form-group">
+          <label>ID Consulta (Referencia)</label>
+          <input type="number" formControlName="consultationId" placeholder="Ej: 100">
+        </div>
+        <div class="form-group">
+          <label>Mensaje Inicial</label>
+          <textarea formControlName="content"></textarea>
+        </div>
+        <button type="submit" [disabled]="newChatForm.invalid" class="btn-primary">Enviar</button>
+      </form>
+    </div>
+
+    <div *ngIf="!showNewChatModal && activeThread" class="chat-active">
+      <div class="chat-header">
+        <h4>Consulta #{{ activeThread.consultationId }}</h4>
+        <span>Chat con Usuario #{{ activeThread.partnerId }}</span>
+      </div>
+
+      <div class="chat-history" id="chatHistory">
+        <div *ngFor="let msg of activeThread.messages"
+             class="msg-bubble"
+             [ngClass]="{'sent': msg.senderId === currentUserId, 'received': msg.senderId !== currentUserId}">
+
+          <div class="bubble-content">
+            <p>{{ msg.content }}</p>
+            <span class="time">{{ msg.sentAt | date:'HH:mm' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <form [formGroup]="chatForm" (ngSubmit)="sendMessage()" class="input-area">
+        <input type="text" formControlName="content" placeholder="Escribe un mensaje..." autocomplete="off">
+        <button type="submit" [disabled]="chatForm.invalid">➤</button>
+      </form>
+    </div>
+
+    <div *ngIf="!showNewChatModal && !activeThread" class="welcome-screen">
+      <div class="welcome-content">
+        <h3>Selecciona un chat</h3>
+        <p>para ver el historial o inicia uno nuevo.</p>
+      </div>
+    </div>
+
+  </main>
 </div>

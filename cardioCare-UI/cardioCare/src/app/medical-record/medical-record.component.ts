@@ -1,34 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+// CORRECCIÓN 1: Rutas relativas.
+// Si el servicio está en 'src/app/medical-record/services/', usa './' no '../'
 import { MedicalRecordService } from './services/medical-record.service';
-import { MedicalRecordResponse } from './models/medical-record.model';
+
+// Si moviste el modelo a la carpeta compartida 'src/app/models/', usa '../models/'
+// Si sigue en 'src/app/medical-record/models/', usa './models/'
+// Aquí asumo que está en la carpeta compartida 'src/app/models/'
+import { MedicalRecordResponse } from "./models/medical-record.model";
 
 @Component({
   selector: 'app-medical-record',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './medical-record.component.html',
   styleUrls: ['./medical-record.component.css']
 })
-export class MedicalRecordComponent implements OnInit {
+export class MedicalRecordComponent implements OnChanges {
+
+  @Input() patientId: number | null = null;
 
   recordForm: FormGroup;
   records: MedicalRecordResponse[] = [];
   loading = false;
-
-  // IMPORTANTE: En una app real, esto viene de la ruta (ActivatedRoute)
-  currentPatientId = 1;
-
-  // Usuario logueado (Doctor)
-  currentUserEmail = 'medico@hospital.com';
+  currentUserEmail = '';
+  userRole = '';
 
   constructor(
     private fb: FormBuilder,
-    private recordService: MedicalRecordService
+    private recordService: MedicalRecordService // Esto fallaba porque la importación de arriba estaba mal
   ) {
-    // Inicializamos el formulario
-    // recordDate se inicializa con la fecha de hoy
     const today = new Date().toISOString().substring(0, 10);
 
     this.recordForm = this.fb.group({
@@ -36,27 +40,44 @@ export class MedicalRecordComponent implements OnInit {
       description: ['', [Validators.required, Validators.minLength(10)]],
       recommendations: [''],
     });
+
+    this.extractUserInfoFromToken();
   }
 
-  ngOnInit(): void {
-    // Intentar recuperar el usuario real si lo guardaste en el login
-    // const user = JSON.parse(localStorage.getItem('user') || '{}');
-    // if(user.email) this.currentUserEmail = user.email;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['patientId'] && this.patientId) {
+      this.loadRecords();
+    }
+  }
 
-    this.loadRecords();
+  extractUserInfoFromToken(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        this.currentUserEmail = payload.sub;
+        this.userRole = payload.role || '';
+      } catch (e) {
+        console.error('Error decodificando token', e);
+      }
+    }
   }
 
   loadRecords(): void {
+    if (!this.patientId) return;
+
     this.loading = true;
-    this.recordService.getByPatient(this.currentPatientId).subscribe({
-      next: (data) => {
-        // Ordenamos: el más reciente primero
-        this.records = data.sort((a, b) =>
+    this.recordService.getByPatient(this.patientId).subscribe({
+      // CORRECCIÓN 2: Tipos explícitos (data: MedicalRecordResponse[])
+      next: (data: MedicalRecordResponse[]) => {
+        // CORRECCIÓN 3: Tipos en el sort ((a: any, b: any) o tipado correcto)
+        this.records = data.sort((a: MedicalRecordResponse, b: MedicalRecordResponse) =>
           new Date(b.recordDate).getTime() - new Date(a.recordDate).getTime()
         );
         this.loading = false;
       },
-      error: (err) => {
+      // CORRECCIÓN 4: Tipo para error (err: any)
+      error: (err: any) => {
         console.error('Error cargando historial', err);
         this.loading = false;
       }
@@ -64,25 +85,22 @@ export class MedicalRecordComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.recordForm.invalid) return;
+    if (this.recordForm.invalid || !this.patientId) return;
 
     const request = {
-      patientId: this.currentPatientId,
+      patientId: this.patientId,
       createdBy: this.currentUserEmail,
       ...this.recordForm.value
     };
 
     this.recordService.create(request).subscribe({
-      next: (res) => {
+      // CORRECCIÓN 5: Tipo explícito para la respuesta
+      next: (res: MedicalRecordResponse) => {
         alert('Ficha guardada correctamente');
-        this.records.unshift(res); // Agregamos al inicio de la lista visual
-        // Limpiamos solo los campos de texto, mantenemos la fecha
-        this.recordForm.patchValue({
-          description: '',
-          recommendations: ''
-        });
+        this.records.unshift(res);
+        this.recordForm.patchValue({ description: '', recommendations: '' });
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error(err);
         alert('Error al guardar. Verifica que tengas rol de MÉDICO.');
       }
@@ -96,7 +114,7 @@ export class MedicalRecordComponent implements OnInit {
       next: () => {
         this.records = this.records.filter(r => r.id !== id);
       },
-      error: (err) => alert('No tienes permisos de Administrador para eliminar fichas.')
+      error: (err: any) => alert('No tienes permisos de Administrador.')
     });
   }
 }

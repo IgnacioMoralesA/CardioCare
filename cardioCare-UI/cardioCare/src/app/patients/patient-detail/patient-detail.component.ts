@@ -4,10 +4,14 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { PatientService } from '../services/patient.service';
 import { PatientResponse } from '../../models/patient.model';
 
+// 1. Importamos el componente de ficha médica
+import { MedicalRecordComponent } from '../../medical-record/medical-record.component'; // Ajusta la ruta
+
 @Component({
   selector: 'app-patient-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  // 2. Lo agregamos a los imports
+  imports: [CommonModule, RouterModule, MedicalRecordComponent],
   templateUrl: './patient-detail.component.html',
   styleUrls: ['./patient-detail.component.css']
 })
@@ -16,6 +20,7 @@ export class PatientDetailComponent implements OnInit {
   patient: PatientResponse | null = null;
   loading = true;
   error = '';
+  patientId: number | null = null; // Guardamos el ID para pasarlo al hijo
 
   constructor(
     private route: ActivatedRoute,
@@ -23,12 +28,11 @@ export class PatientDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // 1. Obtener el ID de la URL
     const idParam = this.route.snapshot.paramMap.get('id');
 
     if (idParam) {
-      const id = Number(idParam);
-      this.loadPatient(id);
+      this.patientId = Number(idParam);
+      this.loadPatient(this.patientId);
     } else {
       this.error = 'ID de paciente inválido.';
       this.loading = false;
@@ -49,15 +53,12 @@ export class PatientDetailComponent implements OnInit {
     });
   }
 
-  // Helper para calcular la edad
   getAge(birthDateString: string): number {
     const birthDate = new Date(birthDateString);
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
     const m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
-    }
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
     return age;
   }
 }

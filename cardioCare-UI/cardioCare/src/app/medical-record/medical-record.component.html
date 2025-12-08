@@ -2,7 +2,7 @@
 
   <header>
     <h2>Ficha Clínica Electrónica</h2>
-    <p>Paciente ID: #{{ currentPatientId }} | Atendido por: {{ currentUserEmail }}</p>
+    <p>Paciente ID: #{{ patientId }} | Atendido por: {{ currentUserEmail }}</p>
   </header>
 
   <section class="new-entry-card">
@@ -72,6 +72,12 @@
           <div class="section-content recommendation" *ngIf="record.recommendations">
             <strong>Tratamiento:</strong>
             <p>{{ record.recommendations }}</p>
+          </div>
+
+          <div class="record-actions">
+            <a [routerLink]="['/medical-records', record.id, 'indicators']" class="btn-indicators">
+              ❤️ Ver Signos Vitales de esta Consulta
+            </a>
           </div>
         </div>
 

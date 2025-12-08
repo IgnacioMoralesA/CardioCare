@@ -19,4 +19,8 @@ export class IndicatorService {
   getByPatient(patientId: number): Observable<IndicatorResponse[]> {
     return this.http.get<IndicatorResponse[]>(`${this.apiUrl}/patient/${patientId}`);
   }
+  // --- AGREGAR ESTE NUEVO MÉTODO ---
+  getByMedicalRecord(medicalRecordId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/medical-record/${medicalRecordId}`);
+  }
 }
