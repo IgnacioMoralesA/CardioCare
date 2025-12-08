@@ -32,13 +32,33 @@ public class ActivityController {
     @GetMapping("/patient/{patientId}/date")
     public List<ActivityDTO> findActivitiesForDate(
             @PathVariable Long patientId,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date
-    ) {
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         return activityService.getActivitiesForDate(patientId, date);
     }
 
     @PatchMapping("/{id}/done")
     public ActivityDTO markAsDone(@PathVariable Long id) {
         return activityService.markAsDone(id);
+    }
+
+    @GetMapping("/patient/{patientId}/summary/daily")
+    public cl.ufro.dci.cardiocare.activity.dto.ActivityDailySummaryDTO getDailySummary(
+            @PathVariable Long patientId,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        return activityService.getDailySummary(patientId, date);
+    }
+
+    @GetMapping("/patient/{patientId}/summary/weekly")
+    public cl.ufro.dci.cardiocare.activity.dto.WeeklySummaryDTO getWeeklySummary(
+            @PathVariable Long patientId) {
+        return activityService.getWeeklySummary(patientId);
+    }
+
+    @GetMapping("/patient/{patientId}/summary/monthly")
+    public cl.ufro.dci.cardiocare.activity.dto.MonthlySummaryDTO getMonthlySummary(
+            @PathVariable Long patientId,
+            @RequestParam int year,
+            @RequestParam int month) {
+        return activityService.getMonthlySummary(patientId, year, month);
     }
 }
