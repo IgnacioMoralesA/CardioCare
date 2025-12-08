@@ -18,7 +18,6 @@ public class MedicController {
     private final MedicService service;
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<MedicResponse> create(@Valid @RequestBody MedicRequest request) {
         return ResponseEntity.ok(service.create(request));
     }

@@ -20,12 +20,11 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 
     @Override
     public MedicalRecordResponse create(MedicalRecordRequest req) {
-        if (!patientRepo.existsById(req.getPatientId())) {
-            throw new jakarta.persistence.EntityNotFoundException("Paciente no encontrado");
-        }
+        cl.ufro.dci.cardiocare.patient.domain.Patient patient = patientRepo.findById(req.getPatientId())
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Paciente no encontrado"));
 
         MedicalRecord mr = new MedicalRecord();
-        mr.setPatientId(req.getPatientId());
+        mr.setPatient(patient);
         mr.setRecordDate(req.getRecordDate());
         mr.setDescription(req.getDescription());
         mr.setRecommendations(req.getRecommendations());
@@ -37,10 +36,15 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
     }
 
     @Override
-    public List<MedicalRecordResponse> getByPatient(Long patientId) {
-        return repo.findByPatientId(patientId).stream()
+    public List<MedicalRecordResponse> getHistory(Long patientId) {
+        return repo.findByPatient_Id(patientId).stream()
                 .map(this::toResponse)
                 .toList();
+    }
+
+    @Override
+    public List<MedicalRecordResponse> getByPatient(Long patientId) {
+        return getHistory(patientId);
     }
 
     @Override
@@ -51,7 +55,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
     private MedicalRecordResponse toResponse(MedicalRecord mr) {
         MedicalRecordResponse r = new MedicalRecordResponse();
         r.setId(mr.getId());
-        r.setPatientId(mr.getPatientId());
+        r.setPatientId(mr.getPatient().getId());
         r.setRecordDate(mr.getRecordDate());
         r.setDescription(mr.getDescription());
         r.setRecommendations(mr.getRecommendations());
@@ -63,7 +67,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
                     .map(i -> {
                         cl.ufro.dci.cardiocare.indicators.dto.IndicatorResponse ir = new cl.ufro.dci.cardiocare.indicators.dto.IndicatorResponse();
                         ir.setId(i.getId());
-                        ir.setPatientId(mr.getPatientId());
+                        ir.setPatientId(mr.getPatient().getId());
                         ir.setType(i.getType());
                         ir.setValue(i.getValue());
                         ir.setTimestamp(i.getTimestamp());

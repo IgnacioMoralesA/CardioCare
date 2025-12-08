@@ -22,21 +22,23 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponse login(AuthRequest request) {
 
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Usuario no encontrado"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Credenciales inválidas");
+            throw new org.springframework.security.authentication.BadCredentialsException("Credenciales inválidas");
         }
 
         String token = jwtService.generateTokenForUser(
                 user.getEmail(),
-                user.getRole().name()  // ← enum → string
-        );
+                user.getRole().name(),
+                user.getId());
 
         AuthResponse response = new AuthResponse();
         response.setToken(token);
         response.setRole(user.getRole().name());
         response.setUserId(user.getId());
+        response.setName(user.getName());
+        response.setEmail(user.getEmail());
         return response;
     }
 
@@ -47,7 +49,7 @@ public class AuthServiceImpl implements AuthService {
         try {
             roleEnum = Role.valueOf(request.getRole());
         } catch (Exception e) {
-            throw new RuntimeException("Rol inválido. Usa: " + java.util.Arrays.toString(Role.values()));
+            throw new IllegalArgumentException("Rol inválido. Usa: " + java.util.Arrays.toString(Role.values()));
         }
 
         User user = User.builder()
@@ -66,9 +68,6 @@ public class AuthServiceImpl implements AuthService {
         res.setEmail(user.getEmail());
         res.setName(user.getName());
         res.setRole(user.getRole().name());
-        // No solemos devolver el teléfono o fecha en el response básico,
-        // pero si lo necesitas puedes agregarlo al DTO UserResponse.
-
         return res;
     }
 }

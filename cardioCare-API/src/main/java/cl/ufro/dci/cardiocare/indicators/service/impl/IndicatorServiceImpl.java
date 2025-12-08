@@ -21,6 +21,7 @@ public class IndicatorServiceImpl implements IndicatorService {
     private final IndicatorRepository repo;
     private final MedicalRecordRepository mrRepo;
     private final IndicatorMapper mapper;
+    private final cl.ufro.dci.cardiocare.indicators.service.RiskAssessmentService riskService;
 
     @Override
     public IndicatorResponse create(IndicatorRequest req) {
@@ -35,6 +36,10 @@ public class IndicatorServiceImpl implements IndicatorService {
         i.setTimestamp(Instant.now());
 
         repo.save(i);
+
+        // --- Smart Risk Check ---
+        riskService.evaluateRisk(i);
+
         return toResponse(i);
     }
 
@@ -55,7 +60,7 @@ public class IndicatorServiceImpl implements IndicatorService {
     private IndicatorResponse toResponse(Indicator i) {
         IndicatorResponse r = new IndicatorResponse();
         r.setId(i.getId());
-        r.setPatientId(i.getMedicalRecord().getPatientId()); // Derive patientId from MedicalRecord
+        r.setPatientId(i.getMedicalRecord().getPatient().getId()); // Derive patientId from MedicalRecord
         r.setType(i.getType());
         r.setValue(i.getValue());
         r.setTimestamp(i.getTimestamp());
