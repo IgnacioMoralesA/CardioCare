@@ -1,10 +1,13 @@
 package cl.ufro.dci.cardiocare.patient.domain;
 
+import cl.ufro.dci.cardiocare.activity.domain.Activity;
 import cl.ufro.dci.cardiocare.security.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "patient")
