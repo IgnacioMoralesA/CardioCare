@@ -14,6 +14,7 @@ import java.util.List;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Patient {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // same id as user
 
     @OneToOne

@@ -2,6 +2,9 @@ package cl.ufro.dci.cardiocare.activity.controller;
 
 import cl.ufro.dci.cardiocare.activity.dto.ActivityDTO;
 import cl.ufro.dci.cardiocare.activity.dto.CreateActivityDTO;
+import cl.ufro.dci.cardiocare.activity.dto.ActivityDailySummaryDTO;
+import cl.ufro.dci.cardiocare.activity.dto.WeeklySummaryDTO;
+import cl.ufro.dci.cardiocare.activity.dto.MonthlySummaryDTO;
 import cl.ufro.dci.cardiocare.activity.service.ActivityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -42,20 +45,20 @@ public class ActivityController {
     }
 
     @GetMapping("/patient/{patientId}/summary/daily")
-    public cl.ufro.dci.cardiocare.activity.dto.ActivityDailySummaryDTO getDailySummary(
+    public ActivityDailySummaryDTO getDailySummary(
             @PathVariable Long patientId,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         return activityService.getDailySummary(patientId, date);
     }
 
     @GetMapping("/patient/{patientId}/summary/weekly")
-    public cl.ufro.dci.cardiocare.activity.dto.WeeklySummaryDTO getWeeklySummary(
+    public WeeklySummaryDTO getWeeklySummary(
             @PathVariable Long patientId) {
         return activityService.getWeeklySummary(patientId);
     }
 
     @GetMapping("/patient/{patientId}/summary/monthly")
-    public cl.ufro.dci.cardiocare.activity.dto.MonthlySummaryDTO getMonthlySummary(
+    public MonthlySummaryDTO getMonthlySummary(
             @PathVariable Long patientId,
             @RequestParam int year,
             @RequestParam int month) {

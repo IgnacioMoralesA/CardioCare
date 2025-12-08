@@ -23,7 +23,7 @@ public class RiskAssessmentServiceImpl implements RiskAssessmentService {
         if (indicator == null || indicator.getValue() == null)
             return;
 
-        double value = Double.parseDouble(String.valueOf(indicator.getValue()));
+        double value = indicator.getValue();
         String type = indicator.getType().toLowerCase();
 
         boolean isHighRisk = false;
