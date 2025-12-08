@@ -30,12 +30,15 @@ public class AuthServiceImpl implements AuthService {
 
         String token = jwtService.generateTokenForUser(
                 user.getEmail(),
-                user.getRole().name() // ← enum → string
-        );
+                user.getRole().name(),
+                user.getId());
 
         AuthResponse response = new AuthResponse();
         response.setToken(token);
         response.setRole(user.getRole().name());
+        response.setUserId(user.getId());
+        response.setName(user.getName());
+        response.setEmail(user.getEmail());
         return response;
     }
 
