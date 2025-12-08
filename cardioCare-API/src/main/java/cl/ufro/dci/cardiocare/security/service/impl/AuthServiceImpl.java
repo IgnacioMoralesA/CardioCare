@@ -22,15 +22,15 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponse login(AuthRequest request) {
 
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Usuario no encontrado"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Credenciales inválidas");
+            throw new org.springframework.security.authentication.BadCredentialsException("Credenciales inválidas");
         }
 
         String token = jwtService.generateTokenForUser(
                 user.getEmail(),
-                user.getRole().name()  // ← enum → string
+                user.getRole().name() // ← enum → string
         );
 
         AuthResponse response = new AuthResponse();
@@ -46,7 +46,7 @@ public class AuthServiceImpl implements AuthService {
         try {
             roleEnum = Role.valueOf(request.getRole());
         } catch (Exception e) {
-            throw new RuntimeException("Rol inválido. Usa: " + java.util.Arrays.toString(Role.values()));
+            throw new IllegalArgumentException("Rol inválido. Usa: " + java.util.Arrays.toString(Role.values()));
         }
 
         User user = User.builder()
