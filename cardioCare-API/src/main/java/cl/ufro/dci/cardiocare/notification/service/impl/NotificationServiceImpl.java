@@ -12,6 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@org.springframework.transaction.annotation.Transactional
 public class NotificationServiceImpl implements NotificationService {
 
     private final NotificationRepository repo;
@@ -42,7 +43,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void markAsRead(Long id) {
         Notification n = repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Notificación no encontrada"));
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Notificación no encontrada"));
 
         n.setReadFlag(true);
         repo.save(n);

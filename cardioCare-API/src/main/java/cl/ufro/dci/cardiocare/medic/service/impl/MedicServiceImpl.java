@@ -13,6 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@org.springframework.transaction.annotation.Transactional
 public class MedicServiceImpl implements MedicService {
 
     private final MedicRepository medicRepository;
@@ -21,7 +22,7 @@ public class MedicServiceImpl implements MedicService {
     @Override
     public MedicResponse create(MedicRequest request) {
         User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Usuario no encontrado"));
 
         Medic medic = new Medic();
         medic.setUser(user);
@@ -37,7 +38,7 @@ public class MedicServiceImpl implements MedicService {
     @Override
     public MedicResponse getById(Long id) {
         Medic medic = medicRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Médico no encontrado"));
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Médico no encontrado"));
         return toResponse(medic);
     }
 

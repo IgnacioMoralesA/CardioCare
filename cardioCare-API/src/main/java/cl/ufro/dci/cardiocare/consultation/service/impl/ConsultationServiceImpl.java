@@ -12,6 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@org.springframework.transaction.annotation.Transactional
 public class ConsultationServiceImpl implements ConsultationService {
 
     private final ConsultationRepository repo;
@@ -33,7 +34,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Override
     public ConsultationResponse reply(Long id, ConsultationReplyRequest req) {
         Consultation c = repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Consulta no encontrada"));
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Consulta no encontrada"));
 
         c.setMedicResponse(req.getResponse());
         c.setStatus("CLOSED");
@@ -46,7 +47,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Override
     public ConsultationResponse getById(Long id) {
         Consultation c = repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Consulta no encontrada"));
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Consulta no encontrada"));
         return toResponse(c);
     }
 

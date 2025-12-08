@@ -6,11 +6,13 @@ import cl.ufro.dci.cardiocare.appointment.repository.AppointmentRepository;
 import cl.ufro.dci.cardiocare.appointment.service.AppointmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AppointmentServiceImpl implements AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
@@ -33,7 +35,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public AppointmentResponse updateStatus(Long id, AppointmentUpdateStatusRequest req) {
         Appointment ap = appointmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cita no encontrada"));
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Cita no encontrada"));
 
         ap.setStatus(req.getStatus());
         appointmentRepository.save(ap);
@@ -43,7 +45,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public AppointmentResponse getById(Long id) {
         Appointment ap = appointmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cita no encontrada"));
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Cita no encontrada"));
         return toResponse(ap);
     }
 
